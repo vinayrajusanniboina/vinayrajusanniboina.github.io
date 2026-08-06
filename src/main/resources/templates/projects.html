@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en-GB" th:lang="${site.lang()}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+
+<main id="main">
+  <div class="wrap">
+
+    <header class="page-head">
+      <h1>Projects</h1>
+      <p class="page-lede">
+        Simulation-led design work in CFD, FEA and CAD. Every page sets out the brief, the
+        decisions and the alternatives considered, the calculations, the simulation setup and
+        what validation actually showed. CAD and simulation files are downloadable, with a
+        neutral-format alternative wherever the native file needs a licence.
+      </p>
+    </header>
+
+    <!--
+      Filter + search. Everything below works without JavaScript: the cards are in the HTML and
+      the controls are progressively enhanced by assets/js/projects.js.
+    -->
+    <section class="filter-bar" aria-labelledby="filter-heading">
+      <h2 id="filter-heading" class="visually-hidden">Filter and search projects</h2>
+
+      <div class="filter-search">
+        <label class="visually-hidden" for="project-search">Search projects</label>
+        <svg class="icon icon-search" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>
+        </svg>
+        <input type="search" id="project-search" autocomplete="off"
+               placeholder="Search titles, methods, results — try &quot;mesh&quot; or &quot;stiffness&quot;">
+      </div>
+
+      <div class="filter-tags" role="group" aria-label="Filter by tag">
+        <button type="button" class="chip is-active" data-tag="" aria-pressed="true">All</button>
+        <button type="button" class="chip" th:each="t : ${tags}"
+                th:attr="data-tag=${t}" aria-pressed="false" th:text="${t}">CFD</button>
+      </div>
+
+      <p class="filter-status mono" id="filter-status" role="status" aria-live="polite"
+         th:text="|${projects.size()} projects|">2 projects</p>
+    </section>
+
+    <div class="card-grid" id="project-grid">
+      <th:block th:each="p : ${projects}">
+        <div th:replace="~{fragments/cards :: card(${p})}"></div>
+      </th:block>
+    </div>
+
+    <p class="empty-state" id="empty-state" hidden>
+      Nothing matches that. <button type="button" class="link-button" id="clear-filters">Clear the filters</button>
+    </p>
+
+  </div>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

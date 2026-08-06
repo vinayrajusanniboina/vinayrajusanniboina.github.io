@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!--
+  The CV page is generated from the same content/about.yaml as the About page, so the two can
+  never drift apart. The PDF is a separate artefact you drop in at the path named in site.yaml.
+  Print styles in site.css make Ctrl+P produce a clean document as a fallback.
+-->
+<html lang="en-GB" th:lang="${site.lang()}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+
+<main id="main">
+  <div class="wrap narrow cv-page">
+
+    <header class="page-head cv-head">
+      <div>
+        <h1>Curriculum vitae</h1>
+        <p class="cv-name" th:text="${person.name()}">Vinay Raju Sanniboina</p>
+        <p class="cv-title mono" th:text="${person.title()}">Automotive Engineer</p>
+      </div>
+      <div class="cv-actions no-print" th:if="${site.cv() != null}">
+        <a class="btn btn-primary" th:if="${fmt.isSet(site.cv().pdf())}"
+           th:href="|/${site.cv().pdf()}|" download>Download PDF</a>
+        <p class="mono muted" th:if="${fmt.isSet(site.cv().updated())}"
+           th:text="|Updated ${site.cv().updated()}|">Updated May 2026</p>
+      </div>
+    </header>
+
+    <!-- Contact block, the way a CV carries it -->
+    <section class="cv-contact">
+      <ul class="cv-contact-list mono">
+        <li th:text="${person.location()}">Luton, United Kingdom</li>
+        <li>
+          <a class="js-email" href="/contact/"
+             th:attr="data-user=${person.emailUser()},data-domain=${person.emailDomain()}">Email</a>
+        </li>
+        <li th:if="${fmt.isSet(person.phone())}">
+          <a th:href="|tel:${person.phoneHref()}|" th:text="${person.phone()}">+44</a>
+        </li>
+        <li th:if="${fmt.isSet(person.linkedin())}">
+          <a th:href="${person.linkedin()}" rel="me noopener">LinkedIn</a>
+        </li>
+        <li><a th:href="${site.baseUrl()}" th:text="${site.host()}">vinayrajusanniboina.com</a></li>
+      </ul>
+    </section>
+
+    <section class="cv-section">
+      <h2>Profile</h2>
+      <div class="prose" th:utext="${md.render(about.profile())}"></div>
+    </section>
+
+    <section class="cv-section" th:if="${fmt.any(about.educationList())}">
+      <h2>Education</h2>
+      <div class="cv-entry" th:each="e : ${about.educationList()}">
+        <div class="cv-entry-head">
+          <h3>
+            <span th:text="${e.qualification()}">MSc</span><span
+              th:if="${fmt.isSet(e.field())}" th:text="| ${e.field()}|"> Automotive Engineering</span><span
+              th:if="${fmt.isSet(e.grade())}" th:text="| (${e.grade()})|"> (2:1)</span>
+          </h3>
+          <span class="mono cv-dates" th:text="${e.dates()}">2025 – 2026</span>
+        </div>
+        <p class="cv-org">
+          <span th:text="${e.institution()}">University</span><span
+            th:if="${fmt.isSet(e.location())}" th:text="|, ${e.location()}|">, Luton</span>
+        </p>
+        <p class="cv-modules" th:if="${fmt.any(e.moduleList())}">
+          <span class="mono cv-label">Core modules</span>
+          <span th:text="${fmt.list(e.moduleList())}">Modules</span>
+        </p>
+        <ul th:if="${fmt.any(e.highlightList())}">
+          <li th:each="h : ${e.highlightList()}" th:text="${h}">Highlight</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="cv-section" th:if="${fmt.any(cvProjects)}">
+      <h2>Projects</h2>
+      <p class="section-note no-print">
+        Full write-ups, with calculations, simulation setup and downloadable models, are on the
+        <a href="/projects/">projects pages</a>.
+      </p>
+      <ul class="cv-projects">
+        <th:block th:each="p : ${cvProjects}">
+          <li th:replace="~{fragments/cards :: cvrow(${p})}"></li>
+        </th:block>
+      </ul>
+    </section>
+
+    <section class="cv-section" th:if="${fmt.any(about.skillList())}">
+      <h2>Technical skills</h2>
+      <dl class="cv-skills">
+        <div th:each="g : ${about.skillList()}">
+          <dt class="mono" th:text="${g.group()}">Design and CAD</dt>
+          <dd th:text="${fmt.list(g.names())}">SOLIDWORKS</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="cv-section">
+      <div class="two-col">
+        <div th:if="${fmt.any(about.membershipList())}">
+          <h2>Memberships</h2>
+          <ul class="plain-list">
+            <li th:each="m : ${about.membershipList()}">
+              <span th:text="${m.body()}">IMechE</span><span
+                class="mono muted" th:if="${fmt.isSet(m.grade())}" th:text="| — ${m.grade()}|"></span>
+            </li>
+          </ul>
+        </div>
+        <div th:if="${fmt.any(about.languageList())}">
+          <h2>Languages</h2>
+          <ul class="plain-list">
+            <li th:each="l : ${about.languageList()}">
+              <span th:text="${l.name()}">English</span>
+              <span class="mono muted" th:text="| — ${l.level()}|"></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div th:if="${fmt.any(about.certificationList())}">
+        <h2>Other</h2>
+        <ul class="plain-list">
+          <li th:each="c : ${about.certificationList()}" th:text="${c}">Full UK driving licence</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="section-note no-print" th:if="${site.cv() != null and fmt.isSet(site.cv().note())}"
+       th:text="${site.cv().note()}">Note</p>
+
+  </div>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

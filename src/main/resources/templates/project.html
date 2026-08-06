@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<!--
+  The project detail template. This is the heart of the site.
+
+  Every numbered section below is optional and renders only when the content file supplies it,
+  so a short write-up and a dissertation-length one use exactly the same template.
+  Maths is emitted as plain text inside .math elements and typeset by assets/js/math.js
+  (KaTeX, with a MathJax fallback) — no TeX delimiters live in the HTML.
+-->
+<html lang="en-GB" th:lang="${site.lang()}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+
+<main id="main" class="project">
+
+  <!-- ============ HEADER ============ -->
+  <header class="project-head">
+    <div class="wrap">
+      <nav class="breadcrumb mono" aria-label="Breadcrumb">
+        <a href="/">Home</a> <span aria-hidden="true">/</span>
+        <a href="/projects/">Projects</a> <span aria-hidden="true">/</span>
+        <span aria-current="page" th:text="${project.title()}">Project</span>
+      </nav>
+
+      <h1 th:text="${project.title()}">Project title</h1>
+      <p class="project-subtitle" th:if="${fmt.isSet(project.subtitle())}"
+         th:text="${project.subtitle()}">Subtitle</p>
+      <p class="project-summary" th:text="${project.summary()}">Summary</p>
+
+      <dl class="project-facts mono">
+        <div th:if="${fmt.isSet(project.role())}">
+          <dt>Role</dt><dd th:text="${project.role()}">Chassis</dd>
+        </div>
+        <div th:if="${fmt.isSet(project.organisation())}">
+          <dt>Where</dt><dd th:text="${project.organisation()}">Team</dd>
+        </div>
+        <div th:if="${fmt.isSet(project.timeline())}">
+          <dt>When</dt><dd th:text="${project.timeline()}">2026</dd>
+        </div>
+        <div th:if="${fmt.isSet(project.status())}">
+          <dt>Status</dt><dd th:text="${project.status()}">Complete</dd>
+        </div>
+        <div th:if="${fmt.any(project.toolList())}">
+          <dt>Tools</dt><dd th:text="${fmt.list(project.toolList())}">ANSYS Fluent</dd>
+        </div>
+      </dl>
+
+      <ul class="tag-list" th:if="${fmt.any(project.tagList())}">
+        <li class="tag" th:each="t : ${project.tagList()}" th:text="${t}">CFD</li>
+      </ul>
+
+      <ul class="project-metrics" th:if="${fmt.any(project.metricList())}">
+        <li th:each="m : ${project.metricList()}">
+          <span class="metric-value mono" th:text="${m.value()}">45%</span>
+          <span class="metric-label" th:text="${m.label()}">drag reduction</span>
+          <span class="metric-note" th:if="${fmt.isSet(m.note())}" th:text="${m.note()}">note</span>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <figure class="project-hero" th:if="${project.hero() != null}">
+    <img th:src="|/${project.hero().src()}|" th:alt="${project.hero().alt()}"
+         fetchpriority="high" decoding="async"
+         th:attr="width=${project.hero().width()},height=${project.hero().height()}">
+    <figcaption th:if="${fmt.isSet(project.hero().caption())}"
+                th:text="${project.hero().caption()}">Caption</figcaption>
+  </figure>
+
+  <div class="wrap project-layout">
+
+    <!-- ============ CONTENTS ============ -->
+    <aside class="project-toc" aria-labelledby="toc-heading">
+      <nav>
+        <h2 id="toc-heading" class="toc-heading mono">On this page</h2>
+        <ol class="toc-list">
+          <li th:if="${fmt.isSet(project.overview()) or fmt.isSet(project.objective())}">
+            <a href="#overview">Overview</a></li>
+          <li th:if="${project.brief() != null}"><a href="#brief">Brief and requirements</a></li>
+          <li th:if="${fmt.any(project.decisionList())}"><a href="#decisions">Design decisions</a></li>
+          <li th:if="${fmt.isSet(project.methodology())}"><a href="#method">Methodology</a></li>
+          <li th:if="${fmt.any(project.calculationList())}"><a href="#calculations">Calculations</a></li>
+          <li th:if="${project.simulation() != null}"><a href="#simulation">Simulation</a></li>
+          <li th:if="${project.validation() != null}"><a href="#validation">Validation and testing</a></li>
+          <li th:if="${fmt.any(project.galleryList())}"><a href="#gallery">Gallery</a></li>
+          <li th:if="${project.hasViewer()}"><a href="#model">3D model</a></li>
+          <li th:if="${fmt.any(downloads)}"><a href="#downloads">Downloads</a></li>
+        </ol>
+      </nav>
+    </aside>
+
+    <article class="project-body">
+
+      <!-- ============ 1. OVERVIEW AND OBJECTIVE ============ -->
+      <section id="overview" class="psection"
+               th:if="${fmt.isSet(project.overview()) or fmt.isSet(project.objective())}">
+        <h2>Overview</h2>
+        <p class="callout callout-objective" th:if="${fmt.isSet(project.objective())}">
+          <span class="callout-label mono">Objective</span>
+          <span th:text="${project.objective()}">Objective</span>
+        </p>
+        <div class="prose" th:if="${fmt.isSet(project.overview())}"
+             th:utext="${md.render(project.overview())}"></div>
+      </section>
+
+      <!-- ============ 2. DESIGN BRIEF ============ -->
+      <section id="brief" class="psection" th:if="${project.brief() != null}">
+        <h2>Design brief, requirements and constraints</h2>
+
+        <div class="prose" th:if="${fmt.isSet(project.brief().context())}"
+             th:utext="${md.render(project.brief().context())}"></div>
+
+        <div class="table-scroll" th:if="${fmt.any(project.brief().requirementList())}">
+          <table class="data-table req-table">
+            <caption>Requirements the design had to meet</caption>
+            <thead>
+            <tr><th scope="col">ID</th><th scope="col">Requirement</th>
+              <th scope="col">Why</th><th scope="col">How verified</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="r : ${project.brief().requirementList()}">
+              <th scope="row" class="mono" th:text="${r.id()}">R1</th>
+              <td th:text="${r.text()}">Requirement</td>
+              <td th:text="${r.rationale()}">Rationale</td>
+              <td th:text="${r.verification()}">Verification</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="two-col">
+          <div th:if="${fmt.any(project.brief().constraintList())}">
+            <h3>Constraints</h3>
+            <ul class="tick-list constraint-list">
+              <li th:each="c : ${project.brief().constraintList()}" th:text="${c}">Constraint</li>
+            </ul>
+          </div>
+          <div th:if="${fmt.any(project.brief().outOfScopeList())}">
+            <h3>Out of scope</h3>
+            <ul class="tick-list scope-list">
+              <li th:each="c : ${project.brief().outOfScopeList()}" th:text="${c}">Out of scope</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 3. DESIGN DECISIONS ============ -->
+      <section id="decisions" class="psection" th:if="${fmt.any(project.decisionList())}">
+        <h2>Design decisions and rationale</h2>
+        <p class="section-note">
+          Each entry states what was chosen, what else was on the table, and why the alternative
+          was rejected.
+        </p>
+
+        <ol class="decision-list">
+          <li class="decision" th:each="d, ds : ${project.decisionList()}">
+            <div class="decision-index mono" th:text="|D${ds.count}|" aria-hidden="true">D1</div>
+            <div class="decision-content">
+              <h3 th:text="${d.title()}">Decision title</h3>
+
+              <p class="decision-choice">
+                <span class="decision-label mono">Decision</span>
+                <span th:text="${d.decision()}">What was chosen</span>
+              </p>
+
+              <div class="alternatives" th:if="${fmt.any(d.alternativeList())}">
+                <h4 class="mono">Alternatives considered</h4>
+                <ul class="alternative-list">
+                  <li th:each="a : ${d.alternativeList()}">
+                    <span class="alt-option" th:text="${a.option()}">Option</span>
+                    <span class="alt-why" th:if="${fmt.isSet(a.whyNot())}">
+                      <span class="alt-arrow mono" aria-hidden="true">rejected:</span>
+                      <span th:text="${a.whyNot()}">Why not</span>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="decision-rationale" th:if="${fmt.isSet(d.rationale())}">
+                <h4 class="mono">Why this one</h4>
+                <div class="prose" th:utext="${md.render(d.rationale())}"></div>
+              </div>
+
+              <p class="decision-consequence" th:if="${fmt.isSet(d.consequences())}">
+                <span class="decision-label mono">Trade-off accepted</span>
+                <span th:text="${d.consequences()}">Consequence</span>
+              </p>
+
+              <p class="decision-evidence mono" th:if="${fmt.isSet(d.evidence())}">
+                Evidence: <span th:text="${d.evidence()}">Test</span>
+              </p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ============ 4. METHODOLOGY ============ -->
+      <section id="method" class="psection" th:if="${fmt.isSet(project.methodology())}">
+        <h2>Engineering logic and methodology</h2>
+        <div class="prose" th:utext="${md.render(project.methodology())}"></div>
+      </section>
+
+      <!-- ============ 5. CALCULATIONS ============ -->
+      <section id="calculations" class="psection" th:if="${fmt.any(project.calculationList())}">
+        <h2>Calculations</h2>
+
+        <div class="calc" th:each="c : ${project.calculationList()}">
+          <h3 th:text="${c.title()}">Calculation title</h3>
+          <div class="prose" th:if="${fmt.isSet(c.intro())}" th:utext="${md.render(c.intro())}"></div>
+
+          <div class="assumptions" th:if="${fmt.any(c.assumptionList())}">
+            <h4 class="mono">Assumptions</h4>
+            <ul class="tick-list">
+              <li th:each="a : ${c.assumptionList()}" th:text="${a}">Assumption</li>
+            </ul>
+          </div>
+
+          <div class="table-scroll" th:if="${fmt.any(c.symbolList())}">
+            <table class="data-table symbol-table">
+              <caption>Nomenclature</caption>
+              <thead>
+              <tr><th scope="col">Symbol</th><th scope="col">Meaning</th>
+                <th scope="col">Value</th><th scope="col">Unit</th><th scope="col">Source</th></tr>
+              </thead>
+              <tbody>
+              <tr th:each="s : ${c.symbolList()}">
+                <th scope="row"><span class="math" th:text="${s.symbol()}">\rho</span></th>
+                <td th:text="${s.meaning()}">Air density</td>
+                <td class="mono num" th:text="${s.value()}">1.225</td>
+                <td class="mono"><span class="math" th:if="${fmt.isSet(s.unit())}"
+                                       th:text="${s.unit()}">kg/m^3</span></td>
+                <td th:text="${s.source()}">ISA</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="math-block" th:if="${fmt.isSet(c.displayMath())}">
+            <span class="math math-display" th:text="${c.displayMath()}">F_D = ...</span>
+          </div>
+
+          <ol class="calc-steps" th:if="${fmt.any(c.stepList())}">
+            <li th:each="s : ${c.stepList()}">
+              <p class="step-desc" th:if="${fmt.isSet(s.description())}" th:text="${s.description()}">Step</p>
+              <div class="math-block" th:if="${fmt.isSet(s.math())}">
+                <span class="math math-display" th:text="${s.math()}">a = b</span>
+              </div>
+              <p class="step-result" th:if="${fmt.isSet(s.result())}">
+                <span class="mono step-arrow" aria-hidden="true">=</span>
+                <strong class="mono" th:text="${s.result()}">215 N</strong>
+              </p>
+              <p class="step-note" th:if="${fmt.isSet(s.note())}" th:text="${s.note()}">Note</p>
+            </li>
+          </ol>
+
+          <p class="calc-result" th:if="${fmt.isSet(c.result())}">
+            <span class="callout-label mono">Result</span>
+            <span th:text="${c.result()}">Result</span>
+          </p>
+          <p class="calc-note" th:if="${fmt.isSet(c.note())}" th:text="${c.note()}">Note</p>
+        </div>
+      </section>
+
+      <!-- ============ 6. SIMULATION ============ -->
+      <section id="simulation" class="psection" th:if="${project.simulation() != null}">
+        <h2>Simulation setup and results</h2>
+
+        <div class="table-scroll">
+          <table class="data-table setup-table">
+            <caption>Solver setup</caption>
+            <tbody>
+            <tr th:if="${fmt.isSet(project.simulation().software())}">
+              <th scope="row">Software</th><td th:text="${project.simulation().software()}">ANSYS Fluent</td></tr>
+            <tr th:if="${fmt.isSet(project.simulation().solver())}">
+              <th scope="row">Solver</th><td th:text="${project.simulation().solver()}">Pressure-based</td></tr>
+            <tr th:if="${fmt.isSet(project.simulation().domain())}">
+              <th scope="row">Domain</th><td th:text="${project.simulation().domain()}">Half domain</td></tr>
+            <tr th:if="${fmt.isSet(project.simulation().turbulenceModel())}">
+              <th scope="row">Turbulence model</th>
+              <td th:text="${project.simulation().turbulenceModel()}">k-omega SST</td></tr>
+            <tr th:each="kv : ${project.simulation().solverSettingList()}">
+              <th scope="row" th:text="${kv.name()}">Scheme</th>
+              <td th:text="${kv.value()}">Second order upwind</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mesh -->
+        <div th:if="${project.simulation().mesh() != null}" th:with="mesh=${project.simulation().mesh()}">
+          <h3>Mesh</h3>
+          <ul class="stat-strip">
+            <li th:if="${fmt.isSet(mesh.type())}">
+              <span class="stat-label mono">Type</span><span class="stat-value" th:text="${mesh.type()}">Poly</span></li>
+            <li th:if="${fmt.isSet(mesh.elements())}">
+              <span class="stat-label mono">Elements</span><span class="stat-value" th:text="${mesh.elements()}">8.4 M</span></li>
+            <li th:if="${fmt.isSet(mesh.nodes())}">
+              <span class="stat-label mono">Nodes</span><span class="stat-value" th:text="${mesh.nodes()}">2.1 M</span></li>
+            <li th:if="${fmt.isSet(mesh.yPlus())}">
+              <span class="stat-label mono">y+</span><span class="stat-value" th:text="${mesh.yPlus()}">&lt; 1</span></li>
+            <li th:if="${fmt.isSet(mesh.inflationLayers())}">
+              <span class="stat-label mono">Inflation</span><span class="stat-value" th:text="${mesh.inflationLayers()}">15</span></li>
+            <li th:if="${fmt.isSet(mesh.growthRate())}">
+              <span class="stat-label mono">Growth</span><span class="stat-value" th:text="${mesh.growthRate()}">1.2</span></li>
+            <li th:if="${fmt.isSet(mesh.qualityMetric())}">
+              <span class="stat-label mono">Quality</span><span class="stat-value" th:text="${mesh.qualityMetric()}">0.85</span></li>
+          </ul>
+
+          <div class="prose" th:if="${fmt.isSet(mesh.independence())}"
+               th:utext="${md.render(mesh.independence())}"></div>
+
+          <div th:replace="~{fragments/tables :: datatable(${mesh.independenceTable()})}"></div>
+        </div>
+
+        <!-- Boundary conditions -->
+        <div th:if="${fmt.any(project.simulation().boundaryConditionList())}">
+          <h3>Boundary conditions</h3>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th scope="col">Boundary</th><th scope="col">Condition</th></tr></thead>
+              <tbody>
+              <tr th:each="bc : ${project.simulation().boundaryConditionList()}">
+                <th scope="row" th:text="${bc.name()}">Inlet</th>
+                <td th:text="${bc.value()}">16.7 m/s</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div th:if="${fmt.isSet(project.simulation().convergence())}">
+          <h3>Convergence</h3>
+          <div class="prose" th:utext="${md.render(project.simulation().convergence())}"></div>
+        </div>
+
+        <div th:if="${fmt.isSet(project.simulation().results())}">
+          <h3>Results</h3>
+          <div class="prose" th:utext="${md.render(project.simulation().results())}"></div>
+        </div>
+
+        <div th:replace="~{fragments/tables :: datatable(${project.simulation().resultsTable()})}"></div>
+
+        <div class="figure-grid" th:if="${fmt.any(project.simulation().figureList())}">
+          <figure th:each="f, fs : ${project.simulation().figureList()}">
+            <button type="button" class="lightbox-trigger"
+                    th:attr="data-src=|/${f.src()}|,data-caption=${f.caption()},data-alt=${f.alt()}">
+              <img th:src="|/${f.src()}|" th:alt="${f.alt()}" loading="lazy" decoding="async"
+                   th:attr="width=${f.width()},height=${f.height()}">
+              <span class="visually-hidden">Open larger view</span>
+            </button>
+            <figcaption th:if="${fmt.isSet(f.caption())}">
+              <span class="fig-num mono" th:text="|Fig. ${fs.count}|">Fig. 1</span>
+              <span th:text="${f.caption()}">Caption</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <p class="section-note" th:if="${fmt.isSet(project.simulation().note())}"
+           th:text="${project.simulation().note()}">Note</p>
+      </section>
+
+      <!-- ============ 7. VALIDATION ============ -->
+      <section id="validation" class="psection" th:if="${project.validation() != null}">
+        <h2>Validation, testing and what was learned</h2>
+
+        <div class="prose" th:if="${fmt.isSet(project.validation().approach())}"
+             th:utext="${md.render(project.validation().approach())}"></div>
+
+        <div class="prose" th:if="${fmt.isSet(project.validation().results())}"
+             th:utext="${md.render(project.validation().results())}"></div>
+
+        <div th:replace="~{fragments/tables :: datatable(${project.validation().resultsTable()})}"></div>
+
+        <div class="issues" th:if="${fmt.any(project.validation().issueList())}">
+          <h3>What went wrong</h3>
+          <ul class="issue-list">
+            <li th:each="i : ${project.validation().issueList()}" th:text="${i}">Issue</li>
+          </ul>
+        </div>
+
+        <div class="lessons" th:if="${fmt.any(project.validation().lessonList())}">
+          <h3>What I would do differently</h3>
+          <ul class="lesson-list">
+            <li th:each="l : ${project.validation().lessonList()}" th:text="${l}">Lesson</li>
+          </ul>
+        </div>
+
+        <p class="callout" th:if="${fmt.isSet(project.validation().futureWork())}">
+          <span class="callout-label mono">Next</span>
+          <span th:text="${project.validation().futureWork()}">Future work</span>
+        </p>
+      </section>
+
+      <!-- ============ 8. GALLERY ============ -->
+      <section id="gallery" class="psection" th:if="${fmt.any(project.galleryList())}">
+        <h2>Images and drawings</h2>
+        <div class="figure-grid gallery-grid">
+          <figure th:each="g : ${project.galleryList()}">
+            <button type="button" class="lightbox-trigger"
+                    th:attr="data-src=|/${g.src()}|,data-caption=${g.caption()},data-alt=${g.alt()}">
+              <img th:src="|/${g.src()}|" th:alt="${g.alt()}" loading="lazy" decoding="async"
+                   th:attr="width=${g.width()},height=${g.height()}">
+              <span class="visually-hidden">Open larger view</span>
+            </button>
+            <figcaption th:if="${fmt.isSet(g.caption())}" th:text="${g.caption()}">Caption</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ============ 10. 3D VIEWER ============ -->
+      <section id="model" class="psection" th:if="${project.hasViewer()}">
+        <h2>3D model</h2>
+        <div class="viewer" id="model-viewer"
+             th:attr="data-model=${project.viewer().model().startsWith('http')}
+                        ? ${project.viewer().model()} : |/${project.viewer().model()}|,
+                      data-format=${project.viewer().format()}">
+          <img class="viewer-poster" th:if="${fmt.isSet(project.viewer().poster())}"
+               th:src="|/${project.viewer().poster()}|"
+               th:alt="${project.viewer().posterAlt()}" loading="lazy" decoding="async">
+          <button type="button" class="btn btn-primary viewer-load" id="viewer-load">
+            Load interactive 3D model
+          </button>
+          <p class="viewer-note mono" th:if="${fmt.isSet(project.viewer().note())}"
+             th:text="${project.viewer().note()}">Note</p>
+          <p class="viewer-note mono">
+            Loads a 3D library on demand. Nothing is downloaded until you press the button.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ 9. DOWNLOADS ============ -->
+      <section id="downloads" class="psection" th:if="${fmt.any(downloads)}">
+        <h2>Downloads</h2>
+        <p class="section-note">
+          Files are served from Cloudflare R2, not from this repository. Checksums are SHA-256 —
+          verify with <code class="mono">certutil -hashfile &lt;file&gt; SHA256</code> on Windows or
+          <code class="mono">shasum -a 256 &lt;file&gt;</code> on macOS and Linux.
+        </p>
+
+        <div class="table-scroll">
+          <table class="data-table download-table">
+            <caption>Project files</caption>
+            <thead>
+            <tr>
+              <th scope="col">File</th>
+              <th scope="col">Format</th>
+              <th scope="col">Size</th>
+              <th scope="col">Opens with</th>
+              <th scope="col">SHA-256</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="d : ${downloads}" th:classappend="${d.neutralFormat()} ? 'is-neutral' : ''">
+              <th scope="row">
+                <a th:if="${d.available()}" th:href="${d.href()}" th:text="${d.label()}"
+                   download rel="noopener">File</a>
+                <span th:unless="${d.available()}" th:text="${d.label()}">File</span>
+                <span class="file-name mono" th:text="${d.fileName()}">file.step</span>
+                <span class="badge-neutral" th:if="${d.neutralFormat()}">no licence needed</span>
+                <span class="download-note" th:if="${fmt.isSet(d.note())}" th:text="${d.note()}">Note</span>
+              </th>
+              <td class="mono" th:text="${d.format()}">STEP</td>
+              <td class="mono num" th:text="${fmt.bytes(d.size())}">18.4 MB</td>
+              <td th:text="${d.requires()}">SOLIDWORKS 2023</td>
+              <td class="mono checksum" th:title="${d.sha256()}" th:text="${fmt.shortHash(d.sha256())}">abc123…</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="section-note" th:unless="${dl.hasNeutral(project)}">
+          These files need the software they were made in. Contact me if you need a neutral-format
+          export.
+        </p>
+      </section>
+
+      <!-- ============ LINKS ============ -->
+      <section class="psection" th:if="${fmt.any(project.linkList())}">
+        <h2>References and links</h2>
+        <ul class="link-list">
+          <li th:each="l : ${project.linkList()}">
+            <a th:href="${l.url()}" th:text="${l.label()}" rel="noopener">Link</a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ============ FOOT ============ -->
+      <footer class="project-foot">
+        <p class="mono" th:if="${project.date() != null}">
+          Written up <time th:attr="datetime=${fmt.iso(project.date())}"
+                           th:text="${fmt.date(project.date())}">May 2026</time>
+        </p>
+        <div class="cta-row">
+          <a class="btn" href="/projects/">&larr; All projects</a>
+          <a class="btn btn-primary js-email" href="/contact/"
+             th:attr="data-user=${person.emailUser()},data-domain=${person.emailDomain()}">Ask me about this</a>
+        </div>
+      </footer>
+
+    </article>
+  </div>
+</main>
+
+<!-- Lightbox shell. Populated by assets/js/lightbox.js. -->
+<dialog class="lightbox" id="lightbox" aria-label="Image viewer">
+  <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close image viewer">&times;</button>
+  <figure>
+    <img id="lightbox-image" src="" alt="">
+    <figcaption id="lightbox-caption"></figcaption>
+  </figure>
+  <button type="button" class="lightbox-prev" id="lightbox-prev" aria-label="Previous image">&#8249;</button>
+  <button type="button" class="lightbox-next" id="lightbox-next" aria-label="Next image">&#8250;</button>
+</dialog>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+
+</body>
+</html>

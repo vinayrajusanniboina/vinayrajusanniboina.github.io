@@ -1,0 +1,33 @@
+# OPTIONAL. Only needed if you deploy the download Worker — see worker/README.md.
+# The recommended setup (public R2 bucket on a custom subdomain) needs none of this.
+
+name = "vinayrajusanniboina-files"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Seconds a signed link stays valid. 604800 = 7 days.
+[vars]
+LINK_TTL = "604800"
+# Set to "1" to reject unsigned requests entirely.
+REQUIRE_SIGNATURE = "0"
+
+# ACCOUNT-SPECIFIC: replace with your bucket name.
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "vinayrajusanniboina-files"
+
+# ACCOUNT-SPECIFIC: create with `npx wrangler kv namespace create COUNTERS`
+# and paste the id it prints here.
+[[kv_namespaces]]
+binding = "COUNTERS"
+id = "PASTE_YOUR_KV_NAMESPACE_ID_HERE"
+
+# Serve the Worker on the download subdomain instead of the R2 public bucket.
+# ACCOUNT-SPECIFIC: the zone must be the domain you added to Cloudflare.
+[[routes]]
+pattern = "files.vinayrajusanniboina.com/*"
+zone_name = "vinayrajusanniboina.com"
+
+# Secrets are NOT set here. Set them once, from the worker/ directory:
+#   npx wrangler secret put SIGNING_KEY
+#   npx wrangler secret put STATS_TOKEN

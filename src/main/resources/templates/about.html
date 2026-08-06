@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-GB" th:lang="${site.lang()}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+
+<main id="main">
+  <div class="wrap narrow">
+
+    <header class="page-head">
+      <h1 th:text="${fmt.isSet(about.headline())} ? ${about.headline()} : 'About'">About</h1>
+    </header>
+
+    <section class="psection">
+      <div class="prose" th:utext="${md.render(about.profile())}"></div>
+    </section>
+
+    <!-- ============ EDUCATION ============ -->
+    <section class="psection" th:if="${fmt.any(about.educationList())}">
+      <h2>Education</h2>
+      <ol class="timeline">
+        <li class="timeline-item" th:each="e : ${about.educationList()}">
+          <div class="timeline-dates mono" th:text="${e.dates()}">2025 – 2026</div>
+          <div class="timeline-body">
+            <h3>
+              <span th:text="${e.qualification()}">MSc</span>
+              <span th:if="${fmt.isSet(e.field())}" th:text="${e.field()}">Automotive Engineering</span>
+            </h3>
+            <p class="timeline-org">
+              <span th:text="${e.institution()}">University of Bedfordshire</span><span
+                th:if="${fmt.isSet(e.location())}" th:text="|, ${e.location()}|">, Luton</span>
+            </p>
+            <p class="timeline-grade mono" th:if="${fmt.isSet(e.grade())}" th:text="${e.grade()}">2:1</p>
+            <p th:if="${fmt.isSet(e.note())}" th:text="${e.note()}">Note</p>
+
+            <div th:if="${fmt.any(e.moduleList())}">
+              <h4 class="mono module-heading">Core modules</h4>
+              <ul class="pill-list">
+                <li th:each="m : ${e.moduleList()}" th:text="${m}">Module</li>
+              </ul>
+            </div>
+
+            <ul class="tick-list" th:if="${fmt.any(e.highlightList())}">
+              <li th:each="h : ${e.highlightList()}" th:text="${h}">Highlight</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============ SKILLS MATRIX ============ -->
+    <section class="psection" th:if="${fmt.any(about.skillList())}">
+      <h2>Skills</h2>
+      <p class="section-note">
+        Levels are self-assessed on a five-point scale and reflect what I have actually used on
+        the projects on this site, not course coverage.
+      </p>
+
+      <div class="skill-groups">
+        <div class="skill-group" th:each="g : ${about.skillList()}">
+          <h3 class="mono" th:text="${g.group()}">Design and CAD</h3>
+          <ul class="skill-list">
+            <li class="skill" th:each="s : ${g.itemList()}">
+              <span class="skill-name" th:text="${s.name()}">SOLIDWORKS</span>
+              <span class="skill-context" th:if="${fmt.isSet(s.context())}" th:text="${s.context()}">context</span>
+              <span class="skill-meter" th:if="${s.levelOrZero() > 0}"
+                    th:attr="aria-label=|${s.name()}: ${s.levelOrZero()} out of 5|" role="img">
+                <span class="pip" th:each="i : ${#numbers.sequence(1, 5)}"
+                      th:classappend="${i &lt;= s.levelOrZero()} ? 'is-on' : ''" aria-hidden="true"></span>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MEMBERSHIPS, LANGUAGES, OTHER ============ -->
+    <section class="psection">
+      <div class="two-col">
+        <div th:if="${fmt.any(about.membershipList())}">
+          <h2>Memberships</h2>
+          <ul class="plain-list">
+            <li th:each="m : ${about.membershipList()}">
+              <a th:if="${fmt.isSet(m.url())}" th:href="${m.url()}" rel="noopener"
+                 th:text="${m.body()}">IMechE</a>
+              <span th:unless="${fmt.isSet(m.url())}" th:text="${m.body()}">IMechE</span>
+              <span class="mono muted" th:if="${fmt.isSet(m.grade())}" th:text="|— ${m.grade()}|">— Member</span>
+            </li>
+          </ul>
+        </div>
+
+        <div th:if="${fmt.any(about.languageList())}">
+          <h2>Languages</h2>
+          <ul class="plain-list">
+            <li th:each="l : ${about.languageList()}">
+              <span th:text="${l.name()}">English</span>
+              <span class="mono muted" th:text="|— ${l.level()}|">— full professional</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="two-col" th:if="${fmt.any(about.certificationList()) or fmt.any(about.interestList())}">
+        <div th:if="${fmt.any(about.certificationList())}">
+          <h2>Certifications and licences</h2>
+          <ul class="plain-list">
+            <li th:each="c : ${about.certificationList()}" th:text="${c}">Full UK driving licence</li>
+          </ul>
+        </div>
+        <div th:if="${fmt.any(about.interestList())}">
+          <h2>Outside work</h2>
+          <ul class="plain-list">
+            <li th:each="i : ${about.interestList()}" th:text="${i}">Interest</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="psection">
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/projects/">See the project work</a>
+        <a class="btn" href="/cv/">Full CV</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

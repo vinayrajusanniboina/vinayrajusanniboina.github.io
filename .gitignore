@@ -1,0 +1,76 @@
+# =============================================================================
+# The two important rules in this file:
+#
+#   docs/    is generated. GitHub Actions builds and publishes it. Committing it
+#            would mean two sources of truth for the same pages.
+#
+#   files/   holds CAD and simulation binaries. These must NEVER go into git.
+#            GitHub Pages repositories have a 1 GB soft limit and a hard 100 MB
+#            per-file limit, and git keeps every version of a binary forever, so
+#            a few SOLIDWORKS assemblies would wreck the repository permanently.
+#            They live in Cloudflare R2 instead — run `upload` to push them, and
+#            commit content/uploads.yaml, which is the record of what is there.
+# =============================================================================
+
+# --- generated site ---
+docs/
+
+# --- large binaries: CAD, CAE, archives ---
+files/**
+!files/**/.gitkeep
+
+# Belt and braces, in case something lands outside files/
+*.SLDPRT
+*.SLDASM
+*.SLDDRW
+*.sldprt
+*.sldasm
+*.slddrw
+*.step
+*.stp
+*.STEP
+*.STP
+*.iges
+*.igs
+*.stl
+*.STL
+*.x_t
+*.x_b
+*.wbpz
+*.wbpj
+*.cas
+*.cas.h5
+*.dat
+*.dat.h5
+*.msh
+*.cdb
+*.rst
+
+# --- Java / Maven ---
+target/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+dependency-reduced-pom.xml
+
+# --- IDEs and local tooling ---
+.claude/
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+nbproject/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- secrets ---
+# R2 credentials come from environment variables and must never be committed.
+.env
+.env.*
+*.pem
+r2-credentials*

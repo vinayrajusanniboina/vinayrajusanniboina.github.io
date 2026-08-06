@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--
+  Generic data table. Renders nothing at all when the table is absent from the content file,
+  which is why every call site can pass a value that may be null.
+-->
+<div th:fragment="datatable(t)" class="table-scroll" th:if="${t != null}">
+  <table class="data-table">
+    <caption th:if="${fmt.isSet(t.caption())}" th:text="${t.caption()}">Caption</caption>
+    <thead>
+    <tr><th scope="col" th:each="col : ${t.columnList()}" th:text="${col}">Column</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="row : ${t.rowList()}">
+      <td th:each="cell : ${row}" th:text="${cell}">cell</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

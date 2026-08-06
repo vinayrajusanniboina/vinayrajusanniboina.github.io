@@ -1,0 +1,29 @@
+# Store everything with LF in the repository, regardless of the machine it was
+# committed from. Without this, editing on Windows rewrites whole files with CRLF
+# and every diff looks like the entire file changed.
+* text=auto eol=lf
+
+# Scripts that must keep LF to be executable on Linux (the CI runner).
+mvnw text eol=lf
+*.sh text eol=lf
+
+# Windows batch files must keep CRLF or cmd.exe mis-parses them.
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binary: never touch, never diff.
+*.jar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.pdf binary
+*.woff2 binary
+*.stl binary
+*.step binary
+*.glb binary
+
+# Generated — collapse in pull request diffs so real changes stay visible.
+content/uploads.yaml linguist-generated=true

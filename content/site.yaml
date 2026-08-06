@@ -1,0 +1,120 @@
+# =============================================================================
+# site.yaml — identity, contact details, navigation and the home page.
+#
+# This is the ONLY file that contains the phone number, the email address and the
+# domain. Change them here and every page follows on the next build.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# THE ONE LINE THAT MOVES THE SITE.
+#
+# While the domain is not registered, this points at the GitHub Pages address and
+# no CNAME file is generated. Once you own vinayrajusanniboina.com, swap the two
+# lines below and push — canonical tags, sitemap, RSS, JSON-LD and the CNAME file
+# all follow automatically.
+#
+#   url: https://www.vinayrajusanniboina.com
+# ---------------------------------------------------------------------------
+url: https://vinayrajusanniboina.github.io
+title: Vinay Raju Sanniboina — Automotive Engineer
+description: >
+  Automotive engineer specialising in electric vehicles. Simulation-led design
+  work in CFD, FEA and CAD, including a multi-element Formula Student front wing
+  optimised in ANSYS Fluent and three chassis design iterations for Formula
+  Student Concept Class.
+lang: en-GB
+locale: en_GB
+
+person:
+  name: Vinay Raju Sanniboina
+  title: Automotive Engineer — Electric Vehicles
+  email: vinayraj.3611@gmail.com
+
+  # ---------------------------------------------------------------------------
+  # TO CONFIRM: this number came off the CV and is one digit short of a standard
+  # UK mobile (+44 7xxx xxxxxx is 10 digits after +44). Check it before the site
+  # goes live — a wrong number on a job-hunt site is an expensive typo.
+  # To remove the phone number entirely, delete the line; every page that shows
+  # it is guarded and will simply omit it.
+  # ---------------------------------------------------------------------------
+  phone: "+44 790042005"
+
+  location: Luton, United Kingdom
+  linkedin: https://www.linkedin.com/in/vinay-raju-sanniboina-474b79220
+
+  # Drop a portrait in at this path (4:5 crop, at least 800x1000) and uncomment.
+  # image: assets/img/vinay.jpg
+  # image_alt: "Vinay Raju Sanniboina."
+
+  positioning: >
+    I use CFD, FEA and CAD to turn design questions into numbers I can defend.
+
+nav:
+  - { label: Projects, href: /projects/ }
+  - { label: About, href: /about/ }
+  - { label: CV, href: /cv/ }
+  - { label: Contact, href: /contact/ }
+
+home:
+  intro: |
+    MSc Automotive Engineering for Electric Vehicles graduate, working across
+    mechanical design, vehicle dynamics and simulation-driven analysis. Every
+    project on this site is written up the way an engineering review expects:
+    the brief, the decisions and the alternatives that were rejected, the
+    calculations behind them, and what testing actually showed.
+
+  currently: Looking for a graduate vehicle engineering role
+
+  # Three headline facts. Every one of these is on the CV — do not add a number
+  # here that you cannot show the working for on a project page.
+  facts:
+    - value: "~45%"
+      label: Reduction in aerodynamic drag
+      note: Multi-element Formula Student front wing, iterative CFD optimisation in ANSYS Fluent
+    - value: "3"
+      label: Full chassis design iterations
+      note: SOLIDWORKS, to Formula Student Concept Class regulations
+    - value: "2:1"
+      label: MSc Automotive Engineering for EVs
+      note: University of Bedfordshire, 2026
+
+  # Order of the cards on the home page. Leave the list empty to fall back to
+  # every project with `featured: true`.
+  featured:
+    - formula-student-front-wing-cfd
+    - formula-student-chassis
+
+  ctas:
+    - { label: View projects, href: /projects/, primary: true }
+    - { label: Download CV, href: /assets/cv/vinay-raju-sanniboina-cv.pdf, primary: false }
+    - { label: LinkedIn, href: "https://www.linkedin.com/in/vinay-raju-sanniboina-474b79220", primary: false }
+
+contact:
+  intro: >
+    The fastest way to reach me is email. I am happy to talk through any of the
+    project work in more detail, including the parts that did not go to plan.
+  availability: >
+    Available for graduate engineering roles in the UK, with particular interest
+    in simulation-led design, validation and quality assurance.
+
+  # A contact form needs a third party and is one more thing that can silently
+  # break. Email always works. Only set this if you are going to test it:
+  #   form_endpoint: https://formspree.io/f/YOUR_FORM_ID
+  #   form_note: "I usually reply within a couple of days."
+
+cv:
+  # Export the CV to PDF and save it at exactly this path, then rebuild.
+  # Until the file exists the build warns but still succeeds.
+  pdf: assets/cv/vinay-raju-sanniboina-cv.pdf
+  updated: August 2026
+  note: >
+    The page above is generated from the same content as the rest of the site, so
+    it and the PDF cannot drift apart.
+
+downloads:
+  # Custom domain bound to the Cloudflare R2 bucket. Set this up before running
+  # `upload` — see DEPLOYMENT.md, step 8.
+  public_base_url: https://files.vinayrajusanniboina.com
+  note: >
+    CAD and simulation files are served from Cloudflare R2, not from the git
+    repository.

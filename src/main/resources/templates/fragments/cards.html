@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--
+  One project card. Used on the home page and the projects index.
+  data-* attributes are what the client-side filter and search read.
+-->
+<article th:fragment="card(p)" class="card"
+         th:attr="data-slug=${p.slug()},
+                  data-tags=${#strings.listJoin(p.tagList(), '|')},
+                  data-title=${p.title()}">
+  <a class="card-link" th:href="${p.url()}">
+    <div class="card-media" th:if="${p.hero() != null}">
+      <img th:src="|/${p.hero().src()}|"
+           th:alt="${p.hero().alt()}"
+           loading="lazy" decoding="async"
+           th:attr="width=${p.hero().width()},height=${p.hero().height()}">
+    </div>
+    <div class="card-media card-media-empty" th:if="${p.hero() == null}" aria-hidden="true">
+      <span class="mono" th:text="${p.tagList().isEmpty()} ? 'PROJECT' : ${p.tagList().get(0)}">CFD</span>
+    </div>
+
+    <div class="card-body">
+      <div class="card-meta mono">
+        <span th:if="${p.date() != null}" th:text="${fmt.date(p.date())}">May 2026</span>
+        <span th:if="${fmt.isSet(p.status())}" th:text="${p.status()}">Complete</span>
+      </div>
+      <h3 class="card-title" th:text="${p.title()}">Project title</h3>
+      <p class="card-sub" th:if="${fmt.isSet(p.subtitle())}" th:text="${p.subtitle()}">Subtitle</p>
+      <p class="card-summary" th:text="${fmt.truncate(p.summary(), 190)}">Summary</p>
+
+      <ul class="card-metrics" th:if="${fmt.any(p.metricList())}">
+        <li th:each="m, s : ${p.metricList()}" th:if="${s.index &lt; 2}">
+          <span class="metric-value mono" th:text="${m.value()}">45%</span>
+          <span class="metric-label" th:text="${m.label()}">drag reduction</span>
+        </li>
+      </ul>
+
+      <ul class="tag-list" th:if="${fmt.any(p.tagList())}">
+        <li class="tag" th:each="t : ${p.tagList()}" th:text="${t}">CFD</li>
+      </ul>
+
+      <span class="card-cta mono" aria-hidden="true">Read the write-up &rarr;</span>
+    </div>
+  </a>
+</article>
+
+<!-- A compact row used on the CV page. -->
+<li th:fragment="cvrow(p)" class="cv-project">
+  <div class="cv-project-head">
+    <h3><a th:href="${p.url()}" th:text="${p.title()}">Project</a></h3>
+    <span class="mono cv-project-dates" th:if="${fmt.isSet(p.timeline())}" th:text="${p.timeline()}">2026</span>
+  </div>
+  <p class="cv-project-role mono" th:if="${fmt.isSet(p.role())}" th:text="${p.role()}">Role</p>
+  <p th:text="${p.summary()}">Summary</p>
+  <ul class="cv-project-points" th:if="${fmt.any(p.metricList())}">
+    <li th:each="m : ${p.metricList()}">
+      <strong class="mono" th:text="${m.value()}">45%</strong>
+      <span th:text="${m.label()}">drag reduction</span><span th:if="${fmt.isSet(m.note())}"
+        th:text="| (${m.note()})|"></span>
+    </li>
+  </ul>
+</li>
+
+</body>
+</html>

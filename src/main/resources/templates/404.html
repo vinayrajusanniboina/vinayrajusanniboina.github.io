@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-GB" th:lang="${site.lang()}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+
+<main id="main">
+  <div class="wrap narrow">
+    <header class="page-head error-head">
+      <p class="error-code mono">404</p>
+      <h1>That page does not exist</h1>
+      <p class="page-lede">
+        The link may be out of date, or the address may have a typo in it. Everything on the site
+        is reachable from the projects index.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/projects/">Browse projects</a>
+        <a class="btn" href="/">Home</a>
+      </div>
+    </header>
+
+    <section class="psection" th:if="${fmt.any(projects)}">
+      <h2>Selected work</h2>
+      <div class="card-grid">
+        <th:block th:each="p : ${projects}">
+          <div th:replace="~{fragments/cards :: card(${p})}"></div>
+        </th:block>
+      </div>
+    </section>
+  </div>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

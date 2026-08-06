@@ -1,0 +1,101 @@
+# =============================================================================
+# Build the site with Java and publish it to GitHub Pages.
+#
+# This is the whole deployment. Push to main, and about ninety seconds later
+# www.vinayrajusanniboina.com is updated. If the content does not validate, the job
+# fails and the live site is left exactly as it was — a broken content file can
+# never take the site down.
+#
+# Set Settings > Pages > Source to "GitHub Actions" for this to run.
+# =============================================================================
+
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  # Lets you redeploy from the Actions tab without pushing anything.
+  workflow_dispatch:
+
+# Least privilege: the job may read the repo and publish Pages, nothing else.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time. A second push while the first is deploying waits its
+# turn rather than racing it; `cancel-in-progress: false` means no half-finished
+# deploy is ever thrown away mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: maven
+
+      - name: Build the generator
+        run: mvn -B --no-transfer-progress package -DskipTests
+
+      # Runs first and on its own so a content mistake is reported as a content
+      # mistake, with the file and the line, rather than as a build failure.
+      - name: Validate content
+        run: java -jar target/site-builder.jar validate
+
+      - name: Generate the site
+        run: java -jar target/site-builder.jar build
+
+      # Cheap sanity checks. These catch the class of mistake that still produces
+      # a technically valid build: an empty page, a missing CNAME, no sitemap.
+      - name: Check the output
+        run: |
+          set -e
+          test -f docs/index.html            || { echo "::error::no index.html"; exit 1; }
+          test -f docs/404.html              || { echo "::error::no 404.html"; exit 1; }
+          test -f docs/sitemap.xml           || { echo "::error::no sitemap.xml"; exit 1; }
+          test -f docs/robots.txt            || { echo "::error::no robots.txt"; exit 1; }
+          test -f docs/search-index.json     || { echo "::error::no search index"; exit 1; }
+          test -f docs/.nojekyll             || { echo "::error::no .nojekyll"; exit 1; }
+          # CNAME is only emitted for a real custom domain. While the site is on
+          # <user>.github.io there must NOT be one, so check it matches site.yaml.
+          if grep -q '^url: *https://[^ ]*\.github\.io' content/site.yaml; then
+            test ! -f docs/CNAME || { echo "::error::CNAME present but site.yaml points at github.io"; exit 1; }
+            echo "Publishing to a github.io address - no CNAME, as expected."
+          else
+            test -f docs/CNAME || { echo "::error::no CNAME - the custom domain would be dropped"; exit 1; }
+            echo "Custom domain: $(cat docs/CNAME)"
+          fi
+          pages=$(find docs -name 'index.html' | wc -l)
+          echo "Generated $pages pages, $(du -sh docs | cut -f1) total."
+          if [ "$pages" -lt 5 ]; then echo "::error::suspiciously few pages"; exit 1; fi
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

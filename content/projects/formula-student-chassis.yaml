@@ -1,0 +1,383 @@
+# =============================================================================
+# Formula Student — Team Bedfordshire Racing, chassis, Concept Class (Class 2)
+#
+# HOW TO FINISH THIS FILE
+# Everything below is either taken from the CV, or marked "TO CONFIRM" because
+# only you have the number. Search for "TO CONFIRM", fill each one in, delete the
+# marker. Nothing has been invented to fill a gap — in particular, the stiffness
+# targets and test results are left blank rather than guessed at.
+# =============================================================================
+
+title: Formula Student chassis — design, build and track testing
+subtitle: Team Bedfordshire Racing, Concept Class (Class 2)
+summary: >
+  Three full chassis design iterations in SOLIDWORKS for Formula Student Concept
+  Class, taken through build and in-house track testing. Testing exposed an
+  instability under acceleration, traced to compliance in the rear engine
+  mounting and fixed by a local stiffness revision.
+
+date: 2026-06-01
+status: Ongoing to Jun 2026
+featured: true
+order: 20
+
+tags: [CAD, Formula Student, Manufacturing, Testing, Vehicle Dynamics]
+tools: [SOLIDWORKS]
+role: Chassis — design, regulation compliance and test support
+organisation: Formula Student Team Bedfordshire Racing
+location: Luton, UK
+timeline: Sep 2025 – Jun 2026
+
+hero:
+  src: assets/img/projects/formula-student-chassis/hero.svg
+  alt: >
+    Placeholder graphic. Replace with a SOLIDWORKS view of the chassis frame, or
+    a photograph of the car during in-house track testing.
+  caption: Placeholder — replace with a frame render or a photo from a test day.
+
+metrics:
+  - value: "3"
+    label: Full design iterations
+    note: SOLIDWORKS, each checked against Concept Class regulations
+  - value: "1"
+    label: Instability traced and resolved
+    note: Rear engine mounting compliance, found in in-house track testing
+
+objective: >
+  Take the Concept Class chassis from concept design through build and in-house
+  track testing, meeting stiffness, packaging and cost targets inside a fixed
+  competition deadline.
+
+overview: |
+  Concept Class (Class 2) is judged on the design and the reasoning behind it
+  rather than on a finished car's dynamic performance, which puts the weight on
+  being able to show *why* the chassis is the way it is. My work covered the
+  frame and body: three full design iterations in SOLIDWORKS, regulation
+  compliance checking against the FSUK technical regulations ahead of the
+  Engineering Design and Cost & Manufacturing submissions, and support through
+  build and in-house track testing.
+
+  The most instructive part was not the CAD. During in-house testing the car
+  showed an instability under acceleration. Rather than treat it as a suspension
+  setup problem, we traced it to compliance in the rear engine mounting — the
+  mount was deflecting enough under drive torque to change what the rear of the
+  car was doing. Revising the mounting for local stiffness resolved it, confirmed
+  by driver feedback across repeated runs, and the revision was worked through
+  with manufacturing so it stayed buildable inside the deadline.
+
+brief:
+  context: |
+    A Concept Class chassis has to satisfy three things that pull against each
+    other: it has to be stiff enough that the suspension geometry behaves as
+    designed, it has to package the driver, powertrain and systems inside the
+    regulation envelope, and it has to be affordable and manufacturable by a
+    student team inside one season.
+
+    Everything else on this page follows from those three constraints and the
+    fact that the competition deadline does not move.
+  requirements:
+    - id: R1
+      text: Frame and body compliant with the FSUK technical regulations for the class.
+      rationale: Non-compliance is not a penalty, it is exclusion from the event.
+      verification: Rule-by-rule check against the regulations before each submission.
+    - id: R2
+      text: Torsional stiffness sufficient that suspension geometry behaves as designed.
+      rationale: >
+        A frame that twists significantly under cornering load changes the
+        effective geometry, so the setup work is chasing a moving target.
+      verification: "TO CONFIRM — state the target value and how it was checked."
+    - id: R3
+      text: Package driver, powertrain and systems inside the regulation envelope.
+      rationale: Packaging conflicts found after manufacture are expensive in a fixed-deadline season.
+      verification: Assembly-level interference and clearance checks in SOLIDWORKS.
+    - id: R4
+      text: Buildable with the team's available manufacturing capability and within the cost target.
+      rationale: A design the team cannot build or afford does not score in Cost & Manufacturing.
+      verification: Review with manufacturing before each iteration was frozen; Cost & Manufacturing submission.
+  constraints:
+    - Fixed competition deadline — the date does not move for a redesign.
+    - Concept Class (Class 2) regulations and the FSUK technical regulations.
+    - Student-team manufacturing capability and cost target.
+  out_of_scope:
+    - Suspension kinematics design.
+    - Powertrain and battery system design.
+
+decisions:
+  - title: Treat the instability as a structural problem, not a setup problem
+    decision: >
+      When the car showed an instability under acceleration during in-house
+      testing, investigate the load path through the rear structure before
+      changing suspension setup.
+    alternatives:
+      - option: Change suspension setup — damper settings, geometry, tyre pressures
+        why_not: >
+          The usual first response, and it would probably have masked some of the
+          symptom. But the instability appeared specifically under acceleration,
+          which points at where drive torque is reacted rather than at how the
+          car is sprung. Setup changes would have consumed test days without
+          addressing the cause.
+      - option: Treat it as a driver technique issue
+        why_not: >
+          It was repeatable across runs, which is the signal that it is the car
+          and not the driver.
+    rationale: |
+      The symptom correlated with a specific load case rather than with speed or
+      corner phase. Under acceleration, drive torque is reacted through the
+      engine mounts into the rear of the frame. That made the rear mounting the
+      first thing to check, and inspection found enough compliance there to
+      explain what the driver was reporting.
+
+      The general point: a symptom that appears under one specific load case is
+      telling you where to look, and it is worth reading that before reaching for
+      the setup sheet.
+    consequences: >
+      Time spent investigating the structure before trying the cheaper setup
+      changes — which would have been the wrong call had the structure been sound.
+    evidence: Repeatable driver reports under acceleration, and inspection of the rear engine mounting.
+
+  - title: Stiffen the mounting locally rather than redesign the rear frame
+    decision: >
+      Revise the rear engine mounting for local stiffness, leaving the rest of the
+      frame architecture unchanged.
+    alternatives:
+      - option: Redesign the rear frame bay around the powertrain
+        why_not: >
+          Would have addressed the compliance, but the manufacturing time and cost
+          were not available inside the remaining schedule, and it would have
+          invalidated the packaging and cost work already submitted.
+      - option: Add a full bracing structure across the rear
+        why_not: >
+          Heavier and more material for stiffness that was not needed globally.
+          The compliance was local to the mounting, so the fix should be local too.
+      - option: Accept it and manage it through setup
+        why_not: >
+          Leaves a known structural deficiency in the car and makes every
+          subsequent setup change harder to interpret.
+    rationale: |
+      The measurement of the problem was local, so the smallest change that
+      addressed it was local. That kept the revision inside what manufacturing
+      could produce in the time remaining, and left the packaging, cost and
+      regulation work already completed still valid.
+    consequences: >
+      A local stiffness increase raises the stiffness discontinuity at the
+      mounting, so load is concentrated more sharply into the surrounding
+      structure. Worth checking in any future iteration.
+    evidence: Driver feedback across subsequent runs after the revision.
+
+  - title: Coordinate the revision with manufacturing before freezing it
+    decision: >
+      Work the revised mounting through with the manufacturing side of the team
+      before committing to it, so that buildability was a design input rather than
+      a discovery.
+    alternatives:
+      - option: Finish the design, then hand it over to be built
+        why_not: >
+          On a fixed deadline, a design that comes back as unbuildable costs the
+          whole loop again — and there was not another loop available.
+    rationale: |
+      With no schedule slack, manufacturability is a hard constraint, not a
+      preference. Bringing it in early cost a short conversation and removed the
+      risk of a late redesign.
+    consequences: >
+      Some design freedom given up in exchange for certainty that the part could
+      be made on time.
+
+  - title: Validate through driver feedback rather than instrumented measurement
+    decision: >
+      Confirm the fix using structured driver feedback across repeated runs under
+      the same conditions that produced the original symptom.
+    alternatives:
+      - option: Strain gauges on the mounting, or accelerometer and IMU logging
+        why_not: >
+          Would have given a quantified before-and-after rather than a qualitative
+          one. Not available within the equipment and time budget for the test
+          sessions.
+    rationale: |
+      Driver feedback is subjective, but it is not worthless: the original symptom
+      was reported repeatably by the driver under a specific and reproducible load
+      case, so the same driver reporting it gone under the same conditions across
+      several runs is meaningful evidence.
+
+      It is qualitative evidence, and it is stated as qualitative rather than
+      dressed up as a measurement.
+    consequences: >
+      No numerical stiffness improvement can be quoted for the revision. That is
+      the honest limitation of the test method, and it is the first thing I would
+      change with another season.
+
+methodology: |
+  1. **Concept and packaging.** Frame architecture laid out in SOLIDWORKS around
+     the driver, powertrain and systems package, inside the regulation envelope.
+  2. **Regulation compliance.** Frame and body checked rule-by-rule against the
+     FSUK technical regulations, ahead of the Engineering Design and the Cost &
+     Manufacturing submissions.
+  3. **Iteration.** Three full design iterations, each one reviewed against the
+     stiffness, packaging and cost targets, and each one checked with
+     manufacturing for buildability before being frozen.
+  4. **Build.** Manufacture and assembly, with design support for the issues that
+     only appear when parts meet each other.
+  5. **In-house track testing.** Running the car and collecting structured driver
+     feedback against specific load cases.
+  6. **Diagnose and revise.** Instability under acceleration traced to rear engine
+     mounting compliance; mounting revised for local stiffness; revision agreed
+     with manufacturing.
+  7. **Re-test.** Same driver, same conditions, repeated runs, to confirm the
+     symptom was gone rather than moved.
+
+calculations:
+  - title: Torsional stiffness — the quantity a chassis target is written in
+    intro: >
+      Chassis stiffness targets are quoted as torsional stiffness, and it is worth
+      being explicit about what is being measured, because a number quoted without
+      the test arrangement is not comparable to anyone else's.
+    assumptions:
+      - Linear elastic response over the load range applied — check the load-deflection plot is straight before quoting a single number.
+      - Frame constrained at the rear suspension pick-up points, loaded at the front pick-ups.
+      - Suspension and tyres removed or rigidly replaced, so the number describes the frame and not the vehicle.
+    symbols:
+      - { symbol: "T", meaning: "Applied torque about the longitudinal axis", unit: "\\mathrm{N\\,m}" }
+      - { symbol: "F", meaning: "Force applied at each end of the loading beam", unit: "\\mathrm{N}" }
+      - { symbol: "b", meaning: "Track width of the loading points", unit: "\\mathrm{m}" }
+      - { symbol: "\\delta", meaning: "Vertical deflection measured at a loading point", unit: "\\mathrm{m}" }
+      - { symbol: "\\theta", meaning: "Twist angle of the frame", unit: "\\mathrm{deg}" }
+      - { symbol: "K_t", meaning: "Torsional stiffness", unit: "\\mathrm{N\\,m/deg}" }
+    display_math: "K_t = \\frac{T}{\\theta}"
+    steps:
+      - description: >
+          A twist test applies equal and opposite vertical forces at the two front
+          pick-up points, separated by the track width, giving a pure torque about
+          the longitudinal axis.
+        math: "T = F \\times b"
+      - description: >
+          The twist angle comes from the vertical deflections measured at the two
+          loading points, using the small-angle relation.
+        math: "\\theta = \\arctan\\!\\left(\\frac{\\delta_{1} + \\delta_{2}}{b}\\right) \\times \\frac{180}{\\pi}"
+      - description: Combining the two gives stiffness directly from the measured quantities.
+        math: "K_t = \\frac{F\\,b}{\\theta}"
+        note: "TO CONFIRM — substitute the applied load, track width and measured deflections from your test."
+    result: "TO CONFIRM — state the measured or predicted torsional stiffness, and the target it was assessed against."
+    note: >
+      Quote the test arrangement alongside the number. The same frame measured
+      with different constraint points produces a materially different figure,
+      which is why bare stiffness numbers between teams are rarely comparable.
+
+  - title: Local stiffness at the engine mounting
+    intro: >
+      The rear mounting problem was a local stiffness problem, so it is worth
+      writing down the quantity that was actually deficient. Torsional stiffness
+      of the whole frame does not capture it.
+    assumptions:
+      - Deflection measured at the mounting under an applied load representative of the drive-torque reaction.
+      - Response linear over the load range applied.
+    symbols:
+      - { symbol: "F_m", meaning: "Load applied at the mounting", unit: "\\mathrm{N}" }
+      - { symbol: "\\delta_m", meaning: "Deflection at the mounting under that load", unit: "\\mathrm{m}" }
+      - { symbol: "k_m", meaning: "Local stiffness at the mounting", unit: "\\mathrm{N/m}" }
+      - { symbol: "M_d", meaning: "Drive torque reacted through the mountings", unit: "\\mathrm{N\\,m}" }
+      - { symbol: "r", meaning: "Effective lever arm from the crank axis to the mounting", unit: "\\mathrm{m}" }
+    display_math: "k_m = \\frac{F_m}{\\delta_m}"
+    steps:
+      - description: >
+          The load at the mounting under acceleration comes from reacting drive
+          torque across the mounting positions.
+        math: "F_m \\approx \\frac{M_d}{r}"
+      - description: >
+          Compliance is simply the inverse of stiffness — it is the quantity the
+          driver actually felt, because it is deflection per unit load.
+        math: "C_m = \\frac{1}{k_m} = \\frac{\\delta_m}{F_m}"
+      - description: >
+          The revision aimed to raise k_m, and therefore cut deflection under the
+          same reacted load.
+        math: "\\delta_{m,\\text{revised}} = \\frac{F_m}{k_{m,\\text{revised}}}"
+        note: "TO CONFIRM — if you have before-and-after FEA or measured deflections, put them here. If you do not, say so rather than estimating."
+    result: >
+      The revision targeted local stiffness at the mounting rather than global
+      frame stiffness, because that is where the compliance was.
+    note: >
+      This calculation is written symbolically on purpose. No before-and-after
+      stiffness was measured on the car, so quoting one would be inventing it.
+
+validation:
+  approach: |
+    Validation was in-house track testing rather than a rig or instrumented
+    measurement, which sets the limits on what can be claimed.
+
+    The original symptom was repeatable: the same driver reported instability
+    under acceleration across multiple runs. That repeatability is what made it
+    a usable test signal. After the mounting revision, the same driver ran the
+    same conditions again across subsequent runs, reporting on the same specific
+    load case rather than on the car in general.
+  results: |
+    The instability under acceleration did not return across the subsequent runs.
+    The evidence is qualitative — structured driver feedback under a controlled
+    and repeatable load case — and it is worth being clear that this is not the
+    same as a measured stiffness improvement.
+
+    What it does establish is that the change addressed the symptom the driver
+    could feel, in the load case where it appeared, repeatably.
+  issues:
+    - >
+      The instability was found during in-house testing, not during design. A
+      compliance check on the rear mounting load path at design stage would have
+      caught it before it was built.
+    - >
+      The test method was qualitative. Without instrumentation there is no
+      before-and-after number for the revision, only the absence of the symptom.
+    - >
+      The fix was made under deadline pressure, which constrained the solution
+      space to what manufacturing could produce in the time remaining rather than
+      to the best available option.
+  lessons:
+    - >
+      A symptom tied to one specific load case is pointing at a load path. Read
+      that before reaching for setup changes.
+    - >
+      Bring manufacturing into a revision before freezing it, not after. On a
+      fixed deadline, buildability is a design constraint like any other.
+    - >
+      Design the instrumentation into the test plan. A strain gauge on the
+      mounting would have turned a qualitative result into a quantified one for
+      very little cost.
+    - >
+      Check local stiffness at hard points that react torque, not just global
+      torsional stiffness. The global number would not have shown this problem.
+  future_work: >
+    Instrument the rear mounting and repeat the test to quantify the improvement,
+    and add a local compliance check on torque-reacting hard points to the design
+    review checklist for the next iteration.
+
+gallery:
+  - src: assets/img/projects/formula-student-chassis/hero.svg
+    alt: >
+      Placeholder graphic. Replace with SOLIDWORKS views of the three frame
+      iterations, the revised rear engine mounting, and photographs from build
+      and testing.
+    caption: >
+      Placeholder — the strongest set here would be the three iterations side by
+      side, plus a detail view of the revised mounting.
+
+# ---------------------------------------------------------------------------
+# DOWNLOADS — see the note in the front wing project file. Put files under
+# files/formula-student-chassis/, uncomment, then run `upload`.
+# ---------------------------------------------------------------------------
+# downloads:
+#   - label: Chassis frame (STEP)
+#     file: files/formula-student-chassis/chassis-frame.step
+#     requires: Any CAD package, or a free STEP viewer
+#     neutral_format: true
+#   - label: Rear engine mounting — revised (STEP)
+#     file: files/formula-student-chassis/rear-mount-rev-c.step
+#     requires: Any CAD package, or a free STEP viewer
+#     neutral_format: true
+#   - label: SOLIDWORKS chassis assembly
+#     file: files/formula-student-chassis/chassis.SLDASM
+#     requires: SOLIDWORKS 2023 or newer
+#     note: References the part files in the same archive.
+#   - label: Frame drawings (PDF)
+#     file: files/formula-student-chassis/frame-drawings.pdf
+#     requires: Any PDF reader
+#     neutral_format: true
+
+links:
+  - label: Formula Student UK — IMechE
+    url: https://www.imeche.org/events/formula-student

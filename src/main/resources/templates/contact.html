@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--
+  Contact. The form is optional and off by default.
+
+  Reasoning: a contact form on a static site needs a third party (Formspree, a Cloudflare Worker).
+  That is one more thing that can silently break, and a silently broken contact form on a job-hunt
+  site is a genuinely expensive failure. The email address is always shown, always works, and does
+  not depend on anyone's uptime. Set contact.form_endpoint in site.yaml only if you want the form
+  as well — and test it the day you turn it on.
+-->
+<html lang="en-GB" th:lang="${site.lang()}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+
+<main id="main">
+  <div class="wrap narrow">
+
+    <header class="page-head">
+      <h1>Contact</h1>
+      <p class="page-lede" th:if="${site.contact() != null and fmt.isSet(site.contact().intro())}"
+         th:text="${site.contact().intro()}">Intro</p>
+    </header>
+
+    <section class="psection">
+      <ul class="contact-list">
+        <li class="contact-item">
+          <span class="contact-label mono">Email</span>
+          <span class="contact-value">
+            <!--
+              Assembled in JS from the data attributes; no plain address in the markup
+              for scrapers to harvest. The anchor is empty on purpose — site.js fills
+              in both the href and the visible text. The <noscript> sits outside it,
+              because an empty link is what a scraper sees and what a person without
+              JavaScript needs replacing.
+            -->
+            <a class="js-email" href="/contact/"
+               th:attr="data-user=${person.emailUser()},data-domain=${person.emailDomain()}"></a>
+            <noscript>Enable JavaScript to see the address, or reach me on LinkedIn.</noscript>
+          </span>
+        </li>
+
+        <li class="contact-item" th:if="${fmt.isSet(person.phone())}">
+          <span class="contact-label mono">Phone</span>
+          <span class="contact-value">
+            <a th:href="|tel:${person.phoneHref()}|" th:text="${person.phone()}">+44</a>
+          </span>
+        </li>
+
+        <li class="contact-item" th:if="${fmt.isSet(person.linkedin())}">
+          <span class="contact-label mono">LinkedIn</span>
+          <span class="contact-value">
+            <a th:href="${person.linkedin()}" rel="me noopener"
+               th:text="${person.linkedin().replace('https://www.linkedin.com/in/', '')}">profile</a>
+          </span>
+        </li>
+
+        <li class="contact-item">
+          <span class="contact-label mono">Location</span>
+          <span class="contact-value" th:text="${person.location()}">Luton, United Kingdom</span>
+        </li>
+
+        <li class="contact-item" th:if="${site.cv() != null and fmt.isSet(site.cv().pdf())}">
+          <span class="contact-label mono">CV</span>
+          <span class="contact-value">
+            <a th:href="|/${site.cv().pdf()}|" download>Download PDF</a>
+            <span class="muted"> · </span>
+            <a href="/cv/">read online</a>
+          </span>
+        </li>
+      </ul>
+
+      <p class="callout" th:if="${site.contact() != null and fmt.isSet(site.contact().availability())}">
+        <span class="callout-label mono">Availability</span>
+        <span th:text="${site.contact().availability()}">Availability</span>
+      </p>
+    </section>
+
+    <!-- Only rendered when site.yaml sets contact.form_endpoint -->
+    <section class="psection"
+             th:if="${site.contact() != null and fmt.isSet(site.contact().formEndpoint())}">
+      <h2>Or send a message</h2>
+      <form class="contact-form" method="POST" th:action="${site.contact().formEndpoint()}">
+        <div class="field">
+          <label for="cf-name">Your name</label>
+          <input type="text" id="cf-name" name="name" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="cf-email">Your email</label>
+          <input type="email" id="cf-email" name="email" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="cf-org">Company or team <span class="optional">(optional)</span></label>
+          <input type="text" id="cf-org" name="organisation" autocomplete="organization">
+        </div>
+        <div class="field">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" rows="6" required></textarea>
+        </div>
+        <!-- Honeypot: real people leave this empty, bots fill it in. -->
+        <div class="field honeypot" aria-hidden="true">
+          <label for="cf-website">Leave this field empty</label>
+          <input type="text" id="cf-website" name="_gotcha" tabindex="-1" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" type="submit">Send</button>
+        <p class="form-note" th:if="${fmt.isSet(site.contact().formNote())}"
+           th:text="${site.contact().formNote()}">Note</p>
+      </form>
+    </section>
+
+  </div>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

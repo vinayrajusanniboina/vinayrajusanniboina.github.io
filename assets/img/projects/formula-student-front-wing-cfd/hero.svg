@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000"
+     role="img" aria-label="Placeholder image">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#c9c4bc" stroke-width="1"/>
+    </pattern>
+    <pattern id="grid10" width="200" height="200" patternUnits="userSpaceOnUse">
+      <path d="M200 0H0V200" fill="none" stroke="#b4ada3" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#efece7"/>
+  <rect width="1600" height="1000" fill="url(#grid)"/>
+  <rect width="1600" height="1000" fill="url(#grid10)"/>
+  <rect x="40" y="40" width="1520" height="920" fill="none" stroke="#8c857a" stroke-width="2"/>
+
+  <!-- Indicative multi-element aerofoil section, drawn as a schematic, not as data -->
+  <g fill="none" stroke="#6f675c" stroke-width="4" stroke-linecap="round">
+    <path d="M330 560 C 520 470, 800 460, 1010 520 C 830 570, 560 600, 330 560 Z"/>
+    <path d="M1050 470 C 1160 430, 1270 435, 1330 465 C 1250 500, 1140 505, 1050 470 Z"/>
+    <path d="M1120 380 C 1210 350, 1300 355, 1350 380 C 1285 405, 1195 408, 1120 380 Z"/>
+  </g>
+  <g stroke="#b23c0c" stroke-width="3" fill="none" stroke-dasharray="14 10">
+    <path d="M180 500 H 320"/>
+    <path d="M180 560 H 320"/>
+    <path d="M180 620 H 320"/>
+  </g>
+  <g fill="#b23c0c">
+    <path d="M320 500 l-16 -7 v14 z"/>
+    <path d="M320 560 l-16 -7 v14 z"/>
+    <path d="M320 620 l-16 -7 v14 z"/>
+  </g>
+
+  <text x="800" y="770" text-anchor="middle" fill="#6f675c"
+        font-family="ui-monospace, Consolas, monospace" font-size="34" letter-spacing="4">
+    IMAGE TO BE ADDED
+  </text>
+  <text x="800" y="822" text-anchor="middle" fill="#8c857a"
+        font-family="ui-sans-serif, system-ui, sans-serif" font-size="26">
+    Replace with a render or CFD contour plot of the multi-element front wing
+  </text>
+  <text x="800" y="866" text-anchor="middle" fill="#a39c92"
+        font-family="ui-monospace, Consolas, monospace" font-size="20">
+    assets/img/projects/formula-student-front-wing-cfd/
+  </text>
+</svg>

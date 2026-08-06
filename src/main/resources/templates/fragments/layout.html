@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+  Shared page furniture. Every page template pulls these four fragments:
+  head, header, footer, scripts.
+
+  Note for anyone editing: this project uses plain Thymeleaf over Java records, so every
+  property access is a method call with brackets — ${project.title()}, not ${project.title}.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- ===================== HEAD ===================== -->
+<head th:fragment="head">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${pageTitle}">Vinay Raju Sanniboina</title>
+  <meta name="description" th:content="${pageDescription}">
+  <meta name="author" th:content="${person.name()}">
+  <link rel="canonical" th:href="${canonical}">
+  <meta name="theme-color" content="#fbfbf9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101214" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" th:content="${pageId == 'project'} ? 'article' : 'website'">
+  <meta property="og:site_name" th:content="${site.title()}">
+  <meta property="og:title" th:content="${pageTitle}">
+  <meta property="og:description" th:content="${pageDescription}">
+  <meta property="og:url" th:content="${canonical}">
+  <meta property="og:locale" th:content="${site.locale()}">
+  <meta property="og:image" th:if="${ogImage != null}" th:content="${ogImage}">
+  <meta name="twitter:card" th:content="${ogImage != null} ? 'summary_large_image' : 'summary'">
+  <meta name="twitter:title" th:content="${pageTitle}">
+  <meta name="twitter:description" th:content="${pageDescription}">
+  <meta name="twitter:image" th:if="${ogImage != null}" th:content="${ogImage}">
+
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="alternate" type="application/rss+xml" th:title="${site.title()}" href="/feed.xml">
+
+  <!--
+    Applied before first paint so a dark-mode visitor never sees a white flash.
+    This is the only inline script on the site and the only one that must not be deferred.
+  -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        if (stored === 'dark' || stored === 'light') {
+          document.documentElement.setAttribute('data-theme', stored);
+        }
+      } catch (e) { /* private mode: fall through to prefers-color-scheme */ }
+    })();
+  </script>
+
+  <link rel="stylesheet" th:href="|/assets/css/site.css?v=${buildId}|">
+
+  <!-- KaTeX, only on pages that actually contain maths. See assets/js/math.js. -->
+  <th:block th:if="${needsMath}">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+          integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+          crossorigin="anonymous">
+  </th:block>
+
+  <script type="application/ld+json" th:utext="${jsonLd}"></script>
+</head>
+
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<th:block th:fragment="header">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">
+        <span class="brand-name" th:text="${person.name()}">Vinay Raju Sanniboina</span>
+        <span class="brand-role" th:text="${person.title()}">Automotive Engineer</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary">
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-list">
+          <span class="nav-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span class="visually-hidden">Menu</span>
+        </button>
+        <ul class="nav-list" id="nav-list">
+          <li th:each="item : ${nav}">
+            <a th:href="${item.href()}"
+               th:text="${item.label()}"
+               th:attr="aria-current=${navCurrent != null and navCurrent.equals(item.href())} ? 'page' : null">Projects</a>
+          </li>
+        </ul>
+      </nav>
+
+      <button class="theme-toggle" type="button" id="theme-toggle"
+              aria-label="Switch between light and dark theme">
+        <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4.5"/>
+          <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/>
+        </svg>
+        <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+</th:block>
+
+<!-- ===================== FOOTER ===================== -->
+<th:block th:fragment="footer">
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <div class="footer-block">
+        <p class="footer-name" th:text="${person.name()}">Vinay Raju Sanniboina</p>
+        <p class="footer-role" th:text="${person.title()}">Automotive Engineer — Electric Vehicles</p>
+        <p class="footer-loc mono" th:text="${person.location()}">Luton, United Kingdom</p>
+      </div>
+
+      <div class="footer-block">
+        <h2 class="footer-heading">Site</h2>
+        <ul class="footer-links">
+          <li th:each="item : ${nav}">
+            <a th:href="${item.href()}" th:text="${item.label()}">Projects</a>
+          </li>
+          <li><a href="/feed.xml">RSS</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-block">
+        <h2 class="footer-heading">Contact</h2>
+        <ul class="footer-links">
+          <li>
+            <!-- Assembled by JS so the plain address is not sitting in the HTML for scrapers. -->
+            <a class="js-email" href="/contact/"
+               th:attr="data-user=${person.emailUser()},data-domain=${person.emailDomain()}">Email</a>
+          </li>
+          <li th:if="${fmt.isSet(person.phone())}">
+            <a th:href="|tel:${person.phoneHref()}|" th:text="${person.phone()}">+44 …</a>
+          </li>
+          <li th:if="${fmt.isSet(person.linkedin())}">
+            <a th:href="${person.linkedin()}" rel="me noopener">LinkedIn</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="wrap footer-legal">
+      <p class="mono">
+        <span th:text="|© ${year} ${person.name()}|">© 2026</span>
+        · <span th:text="|Built ${builtAt}|">Built today</span>
+        · Static site generated with Java
+      </p>
+    </div>
+  </footer>
+</th:block>
+
+<!-- ===================== SCRIPTS ===================== -->
+<th:block th:fragment="scripts">
+  <script defer th:src="|/assets/js/site.js?v=${buildId}|"></script>
+  <script th:if="${pageId == 'projects'}" defer th:src="|/assets/js/projects.js?v=${buildId}|"></script>
+  <script th:if="${pageId == 'project'}" defer th:src="|/assets/js/lightbox.js?v=${buildId}|"></script>
+  <script th:if="${needsMath}" defer th:src="|/assets/js/math.js?v=${buildId}|"></script>
+  <script th:if="${hasViewer}" defer th:src="|/assets/js/viewer.js?v=${buildId}|"></script>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,401 @@
+# =============================================================================
+# MSc dissertation — multi-element Formula Student front wing, CFD
+#
+# HOW TO FINISH THIS FILE
+# Everything below is either (a) taken straight from the CV and the dissertation
+# brief, or (b) marked "TO CONFIRM" because only you have the number. Search this
+# file for "TO CONFIRM", replace each one from your Fluent reports, and delete
+# the marker. Nothing here has been invented to fill a gap.
+# =============================================================================
+
+title: Aerodynamic optimisation of a multi-element Formula Student front wing
+subtitle: MSc dissertation — ANSYS Fluent, SpaceClaim
+summary: >
+  Aerodynamic analysis and optimisation of a multi-element Formula Student front
+  wing in ANSYS Fluent. Geometry designed in CAD, meshed to a demonstrated
+  mesh-independent resolution, and assessed on pressure and velocity contours.
+  Iterative optimisation cut drag by roughly 45% while improving aerodynamic
+  efficiency.
+
+date: 2026-05-01
+status: Complete
+featured: true
+order: 10
+
+tags: [CFD, CAD, Aerodynamics, Formula Student]
+tools: [ANSYS Fluent, SpaceClaim, SOLIDWORKS]
+role: Sole author — geometry, meshing, simulation and analysis
+organisation: MSc Automotive Engineering for Electric Vehicles, University of Bedfordshire
+timeline: 2025 – 2026
+
+hero:
+  src: assets/img/projects/formula-student-front-wing-cfd/hero.svg
+  alt: >
+    Placeholder graphic. Replace with a rendered view of the multi-element front
+    wing geometry, three-quarter front.
+  caption: >
+    Placeholder — replace with a render or a CFD contour plot of the final wing.
+
+metrics:
+  - value: "~45%"
+    label: Reduction in aerodynamic drag
+    note: Final geometry against the baseline, from iterative CFD optimisation
+  - value: "Improved"
+    label: Aerodynamic efficiency
+    note: Lift-to-drag ratio of the final geometry against the baseline
+
+objective: >
+  Reduce the aerodynamic drag of a multi-element Formula Student front wing
+  without giving up downforce, and demonstrate that the result is a property of
+  the geometry rather than of the mesh.
+
+overview: |
+  A Formula Student front wing does two jobs at once. It has to generate
+  downforce at the front axle, and it has to do so without adding so much drag
+  that it costs more in the acceleration and endurance events than it returns in
+  cornering. A multi-element configuration makes that trade-off adjustable —
+  slot gaps and element angles change the pressure recovery on the upper
+  surfaces — but it also makes the design space large enough that guessing is not
+  a strategy.
+
+  This study set up a CFD workflow that could answer the trade-off with numbers:
+  build the geometry in CAD, clean it in SpaceClaim, establish a mesh that no
+  longer changes the answer, choose a turbulence model appropriate to the flow
+  physics, and then iterate on the geometry while holding everything else fixed.
+
+  The final geometry reduced drag by approximately 45% against the baseline while
+  improving aerodynamic efficiency.
+
+brief:
+  context: |
+    The wing had to work inside Formula Student packaging and regulation limits,
+    and the study had to be defensible: a drag number that moves because the mesh
+    changed is not a result.
+  requirements:
+    - id: R1
+      text: Reduce aerodynamic drag of the front wing assembly against the baseline geometry.
+      rationale: Drag costs lap time in the acceleration and endurance events.
+      verification: Drag coefficient from converged Fluent solutions, same boundary conditions each run.
+    - id: R2
+      text: Do not trade the drag reduction for a loss in aerodynamic efficiency.
+      rationale: A wing that sheds drag by shedding downforce has not solved anything.
+      verification: Lift-to-drag ratio compared against the baseline.
+    - id: R3
+      text: Demonstrate that reported differences are independent of mesh resolution.
+      rationale: Without this, every comparison between geometries is unsupported.
+      verification: Mesh independence study across successively refined meshes.
+    - id: R4
+      text: Select a turbulence model appropriate to the flow being studied and justify it.
+      rationale: Adverse pressure gradients and separation on multi-element surfaces are model-sensitive.
+      verification: Documented selection against the flow features of interest.
+  constraints:
+    - Formula Student packaging and regulation envelope for front aerodynamic devices.
+    - Single-configuration study — no active or adjustable elements.
+    - Computational budget of a university workstation, which sets the practical ceiling on mesh size.
+  out_of_scope:
+    - Full-vehicle aerodynamics and wing-to-body interaction.
+    - Wind tunnel or on-track aerodynamic validation.
+    - Structural analysis of the wing elements and mountings.
+
+decisions:
+  - title: Iterate on geometry rather than run a single redesign
+    decision: >
+      Improve the wing through successive geometry revisions, re-running the same
+      analysis on each and carrying forward only changes that improved the
+      objective.
+    alternatives:
+      - option: One redesign, analysed once against the baseline
+        why_not: >
+          Gives a single before-and-after number with no evidence about which
+          change caused it, and no way to stop when a change stops helping.
+      - option: Automated parametric optimisation across the full design space
+        why_not: >
+          The number of solver runs needed is far beyond the available compute
+          budget for a mesh resolved well enough to trust near the surfaces.
+    rationale: |
+      Iterating keeps every comparison like-for-like: one geometry change per
+      revision, identical domain, mesh strategy, boundary conditions and solver
+      settings. That makes it possible to attribute an improvement to a specific
+      change rather than to the run as a whole.
+    consequences: >
+      More solver time overall than a single redesign, and the search is local —
+      it finds a better wing, not provably the best one.
+
+  - title: Establish mesh independence before comparing any two geometries
+    decision: >
+      Run a mesh independence study first, and fix the mesh strategy at the
+      resolution beyond which the aerodynamic coefficients stop changing
+      meaningfully.
+    alternatives:
+      - option: Use one convenient mesh throughout and compare geometries directly
+        why_not: >
+          A change in the coefficients could then be caused by the geometry, by
+          the mesh resolving the flow differently, or by both. The result would
+          not be defensible in a review.
+      - option: Refine to the finest mesh the hardware allows for every run
+        why_not: >
+          Spends the entire computational budget on resolution that the
+          independence study shows is not buying accuracy.
+    rationale: |
+      Mesh independence is what separates a CFD result from a picture. It is also
+      the first thing a reviewer looks for, because without it none of the
+      comparisons downstream carry weight.
+    consequences: >
+      Several solver runs are spent before any design work starts, on meshes that
+      are discarded afterwards.
+    evidence: Mesh independence study, documented in the simulation section below.
+
+  - title: Judge the design on drag and efficiency together, not downforce alone
+    decision: >
+      Use drag coefficient as the primary objective and lift-to-drag ratio as the
+      constraint, so a revision only counts as an improvement if it reduces drag
+      without hurting efficiency.
+    alternatives:
+      - option: Maximise downforce
+        why_not: >
+          Trivially achieved by adding angle of attack, at a drag penalty that
+          costs more in the acceleration and endurance events than it returns.
+      - option: Minimise drag alone
+        why_not: >
+          Equally trivially achieved by flattening the wing, which removes the
+          reason for fitting one.
+    rationale: |
+      The two-part objective is what makes the result meaningful: roughly 45%
+      less drag matters because efficiency improved at the same time, not in
+      spite of it.
+
+  - title: Turbulence model selection
+    decision: >
+      TO CONFIRM — state the model used in the final study and keep the reasoning
+      below, which is why the choice mattered.
+    alternatives:
+      - option: Standard k-epsilon with wall functions
+        why_not: >
+          Cheap and robust in free-shear flow, but wall functions resolve
+          separation under an adverse pressure gradient poorly — which is exactly
+          the flow feature that governs a multi-element wing.
+      - option: A wall-resolved model with near-wall treatment
+        why_not: >
+          Much more demanding on near-wall cell size and therefore on total cell
+          count, which has to be paid for out of the same computational budget.
+    rationale: |
+      The behaviour that decides whether a multi-element configuration works is
+      pressure recovery over the flap suction surfaces and whether the boundary
+      layer stays attached through the slot gaps. Model choice changes that
+      prediction, so it is a decision that has to be stated rather than defaulted.
+
+      TO CONFIRM — record the model you used and the near-wall resolution it
+      required, then delete this marker.
+
+methodology: |
+  The workflow was fixed before any design work started, so that every revision
+  was analysed identically.
+
+  1. **Geometry.** Wing elements built and refined in CAD, then prepared in
+     SpaceClaim: surfaces cleaned, small features that would force unnecessary
+     mesh refinement removed, and the fluid domain extracted.
+  2. **Domain and meshing.** Domain sized so the boundaries do not influence the
+     solution around the wing, with refinement concentrated at the element
+     surfaces, the slot gaps and the wake.
+  3. **Mesh independence.** Successively refined meshes run at identical
+     conditions until the aerodynamic coefficients stopped changing
+     meaningfully. That resolution was then fixed for the rest of the study.
+  4. **Turbulence model selection.** Model chosen against the flow features that
+     govern the result — adverse pressure gradient and separation on the flap
+     suction surfaces.
+  5. **Baseline run.** Converged solution on the baseline geometry, establishing
+     the reference drag and lift coefficients.
+  6. **Iteration.** One geometry change per revision, re-run under identical
+     settings, compared on drag and lift-to-drag ratio. Changes that improved
+     the objective were carried forward; changes that did not were reverted.
+  7. **Analysis.** Static pressure distribution over the element surfaces and
+     velocity contours through the slot gaps and wake, used to explain *why* each
+     revision behaved as it did rather than only recording that it did.
+
+calculations:
+  - title: Drag and lift coefficients — the quantities being compared
+    intro: >
+      Every comparison in this study is between non-dimensional coefficients
+      rather than raw forces, so that any run at a different reference velocity
+      remains directly comparable.
+    assumptions:
+      - Incompressible flow. At Formula Student speeds the Mach number is far below 0.3, so density is constant.
+      - Steady-state, fully developed flow. Transient effects during a corner entry are outside the scope.
+      - Sea-level air at 15 °C, ISA standard conditions.
+      - Reference area A is held identical across every geometry revision, so the coefficients remain comparable.
+    symbols:
+      - { symbol: "F_D", meaning: "Drag force", unit: "\\mathrm{N}" }
+      - { symbol: "F_L", meaning: "Lift force (downforce, acting downwards)", unit: "\\mathrm{N}" }
+      - { symbol: "\\rho", meaning: "Air density", value: "1.225", unit: "\\mathrm{kg/m^3}", source: "ISA sea level, 15 °C" }
+      - { symbol: "V", meaning: "Freestream velocity", unit: "\\mathrm{m/s}", source: "TO CONFIRM — inlet velocity used in the study" }
+      - { symbol: "A", meaning: "Reference area", unit: "\\mathrm{m^2}", source: "TO CONFIRM — reference area used in Fluent" }
+      - { symbol: "C_D,\\ C_L", meaning: "Drag and lift coefficients", unit: "–" }
+    display_math: "C_D = \\frac{F_D}{\\tfrac{1}{2}\\rho V^2 A} \\qquad C_L = \\frac{F_L}{\\tfrac{1}{2}\\rho V^2 A}"
+    steps:
+      - description: >
+          Rearranged, this gives the force the wing actually applies at a given
+          speed — which is what matters for the tyres and for the mountings.
+        math: "F_D = \\tfrac{1}{2}\\,\\rho\\,V^2 A\\,C_D"
+      - description: >
+          Because the dynamic pressure term is quadratic in velocity, a wing
+          assessed at one speed scales predictably to another provided the flow
+          regime does not change.
+        math: "\\frac{F_D(V_2)}{F_D(V_1)} = \\left(\\frac{V_2}{V_1}\\right)^{2}"
+    note: >
+      Fluent reports the coefficients directly once the reference values are set.
+      Check that the reference area and velocity in the Fluent reference values
+      panel match the ones quoted here, otherwise the coefficients are scaled
+      against something other than what you think.
+
+  - title: How the drag reduction and the efficiency figure are defined
+    intro: >
+      Stating the definition matters as much as the number: "45% less drag" is
+      only meaningful once it is clear what it is 45% of.
+    assumptions:
+      - Both geometries evaluated at identical freestream velocity, reference area, mesh strategy and solver settings.
+      - Both solutions converged to the same criteria.
+    symbols:
+      - { symbol: "C_{D,0}", meaning: "Drag coefficient of the baseline geometry", unit: "–", source: "TO CONFIRM — from the baseline run" }
+      - { symbol: "C_{D,f}", meaning: "Drag coefficient of the final optimised geometry", unit: "–", source: "TO CONFIRM — from the final run" }
+      - { symbol: "E", meaning: "Aerodynamic efficiency, lift-to-drag ratio", unit: "–" }
+    display_math: "\\Delta_{\\%} = \\frac{C_{D,0} - C_{D,f}}{C_{D,0}} \\times 100\\%"
+    steps:
+      - description: >
+          The headline result of the study, stated as a reduction relative to the
+          baseline.
+        math: "\\Delta_{\\%} \\approx 45\\%"
+        result: "~45% reduction in drag"
+        note: "TO CONFIRM — substitute your baseline and final drag coefficients here so the working is visible."
+      - description: >
+          Aerodynamic efficiency is the ratio that stops a drag reduction from
+          being achieved by simply removing downforce. It improved alongside the
+          drag reduction.
+        math: "E = \\frac{C_L}{C_D}"
+    result: >
+      Approximately 45% lower drag than the baseline, with aerodynamic efficiency
+      improved rather than traded away.
+    note: >
+      The two figures have to be read together. Either one on its own can be moved
+      in the right direction by a change that makes the wing worse.
+
+simulation:
+  software: ANSYS Fluent
+  solver: "TO CONFIRM — pressure-based / density-based, steady or transient, and the pressure-velocity coupling scheme"
+  domain: "TO CONFIRM — domain dimensions in chord lengths, and whether a symmetry plane was used"
+  turbulence_model: "TO CONFIRM — the model used in the final study"
+
+  mesh:
+    type: "TO CONFIRM — element type, e.g. polyhedral, tetrahedral with inflation, poly-hexcore"
+    elements: "TO CONFIRM — final cell count"
+    y_plus: "TO CONFIRM — y+ range achieved on the element surfaces"
+    inflation_layers: "TO CONFIRM — number of layers and growth rate"
+    independence: |
+      The aerodynamic coefficients were computed on successively refined meshes
+      under identical boundary conditions and solver settings. Refinement
+      continued until further refinement no longer changed the coefficients
+      meaningfully, and that resolution was then held fixed for every geometry
+      revision in the study.
+
+      This is the step that makes the rest of the comparisons valid: it
+      establishes that a change in drag between two geometries is caused by the
+      geometry and not by the mesh resolving the flow differently.
+
+    # Fill this in from your mesh study — one row per mesh. The table renders
+    # automatically once the rows are here, and disappears if you delete it.
+    # independence_table:
+    #   caption: Mesh independence study
+    #   columns: ["Mesh", "Cells", "C_D", "Change vs previous", "C_L", "Change vs previous"]
+    #   rows:
+    #     - ["Coarse",   "TO CONFIRM", "TO CONFIRM", "—",          "TO CONFIRM", "—"]
+    #     - ["Medium",   "TO CONFIRM", "TO CONFIRM", "TO CONFIRM", "TO CONFIRM", "TO CONFIRM"]
+    #     - ["Fine",     "TO CONFIRM", "TO CONFIRM", "TO CONFIRM", "TO CONFIRM", "TO CONFIRM"]
+    #     - ["Very fine","TO CONFIRM", "TO CONFIRM", "TO CONFIRM", "TO CONFIRM", "TO CONFIRM"]
+
+  # boundary_conditions:
+  #   - { name: Inlet, value: "TO CONFIRM — velocity inlet, m/s, turbulence intensity and length scale" }
+  #   - { name: Outlet, value: "TO CONFIRM — pressure outlet, gauge pressure" }
+  #   - { name: Wing surfaces, value: "No-slip wall" }
+  #   - { name: Ground, value: "TO CONFIRM — moving wall at freestream velocity, or stationary" }
+  #   - { name: Domain sides and top, value: "TO CONFIRM — symmetry or free-slip wall" }
+
+  convergence: |
+    TO CONFIRM — state the residual levels reached and, more usefully, confirm
+    that the drag and lift monitors were flat over the final iterations. A
+    monitor that has stopped moving is stronger evidence of convergence than a
+    residual threshold on its own.
+
+  results: |
+    Analysis focused on two things:
+
+    **Static pressure distribution** over the element surfaces, which shows where
+    the wing is actually generating load and where pressure recovery is running
+    out on the flap suction surfaces. This is what identifies the element angle
+    and slot gap that are limiting the configuration.
+
+    **Velocity contours** through the slot gaps and into the wake, which show
+    whether the flow stays attached through the gaps and how much momentum
+    deficit the wing leaves behind it. Separation appearing in the contours is
+    the direct explanation for a revision that added drag without adding
+    downforce.
+
+    Read together, these are what turned each iteration from "the number moved"
+    into a reason the number moved — and that reasoning is what drove the next
+    geometry change.
+
+  # figures:
+  #   - src: assets/img/projects/formula-student-front-wing-cfd/pressure-contour.png
+  #     alt: "Static pressure contour over the wing element surfaces at mid-span."
+  #     caption: "Static pressure distribution, final geometry."
+  #   - src: assets/img/projects/formula-student-front-wing-cfd/velocity-contour.png
+  #     alt: "Velocity magnitude contour on a vertical plane through the slot gaps."
+  #     caption: "Velocity contours through the slot gaps and wake."
+
+  note: >
+    Export the contour plots from Fluent at a readable resolution, drop them into
+    assets/img/projects/formula-student-front-wing-cfd/, and uncomment the
+    figures block above.
+
+gallery:
+  - src: assets/img/projects/formula-student-front-wing-cfd/hero.svg
+    alt: >
+      Placeholder graphic. Replace with CAD views of the wing elements and the
+      final assembly.
+    caption: Placeholder — replace with geometry views, mesh detail and contour plots.
+
+# ---------------------------------------------------------------------------
+# DOWNLOADS
+# Nothing is listed here yet because no files have been uploaded. To add them:
+#   1. Put the files under files/formula-student-front-wing-cfd/
+#   2. Uncomment the block below and adjust the labels
+#   3. Run:  java -jar target/site-builder.jar upload
+#      Size, SHA-256 checksum and download URL fill in automatically.
+# Always include at least one neutral format so a reviewer without a SOLIDWORKS
+# or ANSYS licence can still open something.
+# ---------------------------------------------------------------------------
+# downloads:
+#   - label: Wing geometry (STEP)
+#     file: files/formula-student-front-wing-cfd/front-wing.step
+#     requires: Any CAD package, or a free STEP viewer
+#     neutral_format: true
+#   - label: Dissertation report (PDF)
+#     file: files/formula-student-front-wing-cfd/dissertation.pdf
+#     requires: Any PDF reader
+#     neutral_format: true
+#   - label: SOLIDWORKS assembly
+#     file: files/formula-student-front-wing-cfd/front-wing.SLDASM
+#     requires: SOLIDWORKS 2023 or newer
+#     note: References the part files in the same folder.
+#   - label: Fluent case and data
+#     file: files/formula-student-front-wing-cfd/front-wing-fluent.zip
+#     requires: ANSYS Fluent 2023 R2 or newer
+#     note: Case and data files for the final converged run.
+
+# ---------------------------------------------------------------------------
+# 3D VIEWER — optional. Export a coarse STL from SOLIDWORKS (File > Save As >
+# STL), keep it under about 10 MB, and uncomment.
+# ---------------------------------------------------------------------------
+# viewer:
+#   model: files/formula-student-front-wing-cfd/front-wing-preview.stl
+#   poster: assets/img/projects/formula-student-front-wing-cfd/render.jpg
+#   poster_alt: "Rendered view of the front wing assembly."
+#   note: Coarse STL export, roughly 6 MB. Drag to rotate, scroll to zoom.

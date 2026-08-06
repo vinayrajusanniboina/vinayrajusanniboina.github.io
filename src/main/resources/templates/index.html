@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-GB" th:lang="${site.lang()}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-text">
+        <p class="hero-eyebrow mono" th:text="${person.title()}">Automotive Engineer — Electric Vehicles</p>
+        <h1 class="hero-name" th:text="${person.name()}">Vinay Raju Sanniboina</h1>
+        <p class="hero-positioning" th:text="${person.positioning()}">Positioning statement</p>
+        <div class="hero-intro prose" th:if="${fmt.isSet(site.home().intro())}"
+             th:utext="${md.render(site.home().intro())}"></div>
+
+        <div class="cta-row">
+          <a th:each="cta : ${site.home().ctaList()}"
+             th:href="${cta.href()}"
+             th:classappend="${cta.primary()} ? 'btn btn-primary' : 'btn'"
+             th:text="${cta.label()}"
+             th:attr="rel=${cta.href().startsWith('http')} ? 'noopener' : null">View projects</a>
+        </div>
+
+        <p class="hero-location mono">
+          <svg class="icon icon-inline" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/>
+          </svg>
+          <span th:text="${person.location()}">Luton, United Kingdom</span>
+          <span th:if="${fmt.isSet(site.home().currently())}" class="hero-currently"
+                th:text="${site.home().currently()}"></span>
+        </p>
+      </div>
+
+      <div class="hero-portrait" th:if="${fmt.isSet(person.image())}">
+        <img th:src="|/${person.image()}|" th:alt="${person.imageAlt()}"
+             width="480" height="600" fetchpriority="high" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HEADLINE FACTS ============ -->
+  <section class="facts" th:if="${fmt.any(site.home().factList())}" aria-labelledby="facts-heading">
+    <div class="wrap">
+      <h2 id="facts-heading" class="visually-hidden">Headline facts</h2>
+      <ul class="fact-grid">
+        <li class="fact" th:each="f : ${site.home().factList()}">
+          <span class="fact-value mono" th:text="${f.value()}">45%</span>
+          <span class="fact-label" th:text="${f.label()}">reduction in aerodynamic drag</span>
+          <span class="fact-note" th:if="${fmt.isSet(f.note())}" th:text="${f.note()}">note</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED PROJECTS ============ -->
+  <section class="section" aria-labelledby="featured-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="featured-heading">Selected work</h2>
+        <p class="section-lede">
+          Each write-up covers the brief, the design decisions and the alternatives rejected,
+          the calculations behind them, and what testing actually showed — including what went wrong.
+        </p>
+      </div>
+
+      <div class="card-grid">
+        <th:block th:each="p : ${featured}">
+          <div th:replace="~{fragments/cards :: card(${p})}"></div>
+        </th:block>
+      </div>
+
+      <p class="section-more">
+        <a class="btn" href="/projects/">All projects
+          <span class="mono" th:text="|(${projects.size()})|">(2)</span></a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ CAPABILITY STRIP ============ -->
+  <section class="section section-alt" aria-labelledby="capability-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="capability-heading">What I work with</h2>
+      </div>
+      <div class="capability-grid">
+        <div class="capability" th:each="g : ${about.skillList()}">
+          <h3 class="capability-title mono" th:text="${g.group()}">Design and CAD</h3>
+          <ul class="capability-items">
+            <li th:each="s : ${g.itemList()}" th:text="${s.name()}">SOLIDWORKS</li>
+          </ul>
+        </div>
+      </div>
+      <p class="section-more">
+        <a class="link-arrow" href="/about/">More about my background &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT STRIP ============ -->
+  <section class="section contact-strip" aria-labelledby="contact-heading">
+    <div class="wrap contact-strip-inner">
+      <div>
+        <h2 id="contact-heading">Open to graduate roles</h2>
+        <p th:if="${site.contact() != null and fmt.isSet(site.contact().availability())}"
+           th:text="${site.contact().availability()}">Availability</p>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary js-email" href="/contact/"
+           th:attr="data-user=${person.emailUser()},data-domain=${person.emailDomain()}">Email me</a>
+        <a class="btn" th:href="${person.linkedin()}" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
