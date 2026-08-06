@@ -99,3 +99,11 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          # The action's default is 10 minutes, after which it cancels the
+          # deployment and fails. On a newly created account the Pages queue can
+          # sit in `deployment_queued` far longer than that, which shows up as a
+          # red run even though the content eventually publishes. Waiting longer
+          # costs nothing (the job is idle) and turns a false failure into a pass.
+          timeout: 1800000
+          error_count: 20
