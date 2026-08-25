@@ -1,4 +1,4 @@
-# =============================================================================
+=============================================================================
 # about.yaml — profile, education, skills.
 #
 # Single source of truth for BOTH /about/ and /cv/. Edit once, both update.
@@ -7,9 +7,7 @@
 # employment to put in it; an empty or padded experience block does more harm
 # than no block at all.
 # =============================================================================
-
 headline: About
-
 profile: |
   I am an automotive engineer working on electric vehicles, with an MSc in
   Automotive Engineering for Electric Vehicles from the University of
@@ -22,17 +20,23 @@ profile: |
   iterative optimisation in ANSYS Fluent produced roughly a 45% reduction in
   aerodynamic drag alongside improved aerodynamic efficiency.
 
-  Alongside the MSc I was on chassis for Formula Student Bedfordshire Racing,
-  competing in Concept Class. That work took the chassis from concept design
-  through build and in-house track testing, against stiffness, packaging and
-  cost targets on a fixed competition deadline. The most useful thing I took
-  from it was not the CAD: it was tracing an instability under acceleration back
-  to compliance in the rear engine mounting, revising the mounting, and
-  confirming the fix through driver feedback across subsequent runs.
+  Before the MSc I spent two months as a CAE engineering intern in a product
+  development research group, working on battery thermal management systems
+  using nanofluids for electric vehicles — analysing coolant and heat transfer
+  behaviour across a pack, and presenting findings that tied the analysis back
+  to decisions a pack designer would actually face.
 
-  I am looking for a graduate programme in vehicle engineering, with particular
-  interest in simulation-led design, validation and quality assurance.
+  Alongside the MSc I was on chassis for Formula Student Bedfordshire Racing, in
+  a 24-member team. That work took chassis components from concept design in
+  SOLIDWORKS through to workshop manufacture — cutting, welding, fabrication and
+  assembly — against stiffness, packaging and cost targets on a fixed project
+  deadline. The most useful thing I took from it was not the CAD. It was
+  building the parts I had drawn, discovering which of my drawings were
+  optimistic, and learning to check a component against its drawing before it
+  goes anywhere near an assembly rather than after.
 
+  I am looking for a graduate engineering role, with particular interest in
+  simulation-led design, validation and quality assurance.
 education:
   - qualification: MSc
     field: Automotive Engineering for Electric Vehicles
@@ -50,7 +54,6 @@ education:
       - >
         Dissertation: aerodynamic performance analysis and optimisation of a
         multi-element Formula Student front wing using CFD.
-
   - qualification: BEng
     field: Electrical & Electronics Engineering (specialisation Electric Vehicles)
     grade: First Class Honours
@@ -63,7 +66,6 @@ education:
       - Control and embedded systems
       - Automotive electronics
       - EV technologies and battery systems
-
 # Levels are 1–5 and optional. Only claim a level you would be happy to be
 # questioned on in an interview. Omit `level` and the skill renders as a plain
 # entry with no bar — which is the honest answer for things you have studied but
@@ -71,47 +73,57 @@ education:
 skills:
   - group: Design and CAD
     items:
-      - { name: SOLIDWORKS, level: 4, context: "Three full chassis design iterations, Concept Class" }
+      - { name: SOLIDWORKS, level: 4, context: "Chassis component design and iteration, Formula Student" }
       - { name: SpaceClaim, level: 3, context: "Geometry preparation and clean-up for CFD" }
-      - { name: Engineering drawing and GD&T, level: 3 }
-
+      - { name: Design for manufacture, level: 3, context: "Designed components then built them in the workshop" }
+      - { name: Engineering drawing }
+      - { name: GD&T }
   - group: Simulation and analysis
     items:
       - { name: ANSYS Fluent, level: 4, context: "Multi-element front wing study, MSc dissertation" }
       - { name: CFD, level: 4, context: "Meshing, turbulence model selection, mesh independence" }
+      - { name: CAE, level: 3, context: "Battery thermal management research internship" }
+      - { name: Thermal analysis, level: 3, context: "Nanofluid coolant behaviour across an EV battery pack" }
       - { name: FEA, level: 3 }
       - { name: Meshing, level: 3 }
       - { name: Engineering analysis and numerical modelling, level: 3 }
-
+      - { name: MATLAB }
+      - { name: Simulink }
   - group: Vehicle engineering
     items:
       - { name: Vehicle dynamics, level: 3 }
       - { name: Aerodynamics, level: 4 }
       - { name: Chassis design and packaging, level: 3 }
-      - { name: Track testing and driver feedback, level: 3 }
-
   - group: EV systems
     items:
       - { name: Battery systems, level: 3 }
+      - { name: Battery thermal management (BTMS), level: 3, context: "Two-month CAE research internship" }
       - { name: Power electronics, level: 3 }
       - { name: Motor control, level: 3 }
       - { name: Automotive electronics and control systems, level: 3 }
-
+  - group: Manufacturing and quality
+    items:
+      - { name: Welding, level: 3, context: "Formula Student chassis fabrication" }
+      - { name: Metal cutting and fabrication, level: 3 }
+      - { name: Assembly and component fitment, level: 3 }
+      - { name: Inspection against drawings and regulations, level: 3, context: "Quality checks before assembly" }
+      - { name: Workshop health and safety, level: 3 }
   - group: Tools
     items:
       - { name: Excel, level: 4 }
-
+      - { name: Word, level: 4 }
+      - { name: PowerPoint, level: 3 }
 memberships:
   - body: Institution of Mechanical Engineers (IMechE)
     grade: Member
     url: https://www.imeche.org/
-
 languages:
   - { name: English, level: Full professional }
   - { name: Telugu, level: Native }
-
 certifications:
   - Full UK driving licence
+  - Artificial Intelligence programme, IIT Kanpur (iStop), 2021
+
 
 # Which projects appear on the CV page, in this order.
 cv_projects:
