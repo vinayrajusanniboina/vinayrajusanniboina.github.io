@@ -1,4 +1,4 @@
-=============================================================================
+# =============================================================================
 # about.yaml — profile, education, skills.
 #
 # Single source of truth for BOTH /about/ and /cv/. Edit once, both update.
@@ -13,28 +13,24 @@ profile: |
   Automotive Engineering for Electric Vehicles from the University of
   Bedfordshire and a first-class BEng in Electrical and Electronics Engineering
   specialising in electric vehicles.
-
   My background sits across mechanical design, vehicle dynamics and
   simulation-driven analysis — CAD, FEA and CFD. My dissertation was an
   aerodynamic study of a multi-element Formula Student front wing, where
   iterative optimisation in ANSYS Fluent produced roughly a 45% reduction in
   aerodynamic drag alongside improved aerodynamic efficiency.
-
   Before the MSc I spent two months as a CAE engineering intern in a product
   development research group, working on battery thermal management systems
   using nanofluids for electric vehicles — analysing coolant and heat transfer
   behaviour across a pack, and presenting findings that tied the analysis back
   to decisions a pack designer would actually face.
-
-  Alongside the MSc I was on chassis for Formula Student Bedfordshire Racing, in
-  a 24-member team. That work took chassis components from concept design in
-  SOLIDWORKS through to workshop manufacture — cutting, welding, fabrication and
-  assembly — against stiffness, packaging and cost targets on a fixed project
-  deadline. The most useful thing I took from it was not the CAD. It was
-  building the parts I had drawn, discovering which of my drawings were
+  Alongside the MSc I was on chassis for Formula Student Bedfordshire Racing,
+  in a 24-member team. That work took chassis components from concept design in
+  SOLIDWORKS through to workshop manufacture — cutting, welding, fabrication
+  and assembly — against stiffness, packaging and cost targets on a fixed
+  project deadline. The most useful thing I took from it was not the CAD. It
+  was building the parts I had drawn, discovering which of my drawings were
   optimistic, and learning to check a component against its drawing before it
   goes anywhere near an assembly rather than after.
-
   I am looking for a graduate engineering role, with particular interest in
   simulation-led design, validation and quality assurance.
 education:
@@ -75,44 +71,31 @@ skills:
     items:
       - { name: SOLIDWORKS, level: 4, context: "Chassis component design and iteration, Formula Student" }
       - { name: SpaceClaim, level: 3, context: "Geometry preparation and clean-up for CFD" }
-      - { name: Design for manufacture, level: 3, context: "Designed components then built them in the workshop" }
-      - { name: Engineering drawing }
-      - { name: GD&T }
+      - { name: Engineering drawing and GD&T, level: 3 }
   - group: Simulation and analysis
     items:
       - { name: ANSYS Fluent, level: 4, context: "Multi-element front wing study, MSc dissertation" }
       - { name: CFD, level: 4, context: "Meshing, turbulence model selection, mesh independence" }
-      - { name: CAE, level: 3, context: "Battery thermal management research internship" }
-      - { name: Thermal analysis, level: 3, context: "Nanofluid coolant behaviour across an EV battery pack" }
+      - { name: CAE and thermal analysis, level: 3, context: "Battery thermal management research internship" }
       - { name: FEA, level: 3 }
       - { name: Meshing, level: 3 }
       - { name: Engineering analysis and numerical modelling, level: 3 }
-      - { name: MATLAB }
-      - { name: Simulink }
   - group: Vehicle engineering
     items:
       - { name: Vehicle dynamics, level: 3 }
       - { name: Aerodynamics, level: 4 }
       - { name: Chassis design and packaging, level: 3 }
+      - { name: Chassis fabrication and welding, level: 3 }
   - group: EV systems
     items:
       - { name: Battery systems, level: 3 }
-      - { name: Battery thermal management (BTMS), level: 3, context: "Two-month CAE research internship" }
+      - { name: Battery thermal management, level: 3 }
       - { name: Power electronics, level: 3 }
       - { name: Motor control, level: 3 }
       - { name: Automotive electronics and control systems, level: 3 }
-  - group: Manufacturing and quality
-    items:
-      - { name: Welding, level: 3, context: "Formula Student chassis fabrication" }
-      - { name: Metal cutting and fabrication, level: 3 }
-      - { name: Assembly and component fitment, level: 3 }
-      - { name: Inspection against drawings and regulations, level: 3, context: "Quality checks before assembly" }
-      - { name: Workshop health and safety, level: 3 }
   - group: Tools
     items:
       - { name: Excel, level: 4 }
-      - { name: Word, level: 4 }
-      - { name: PowerPoint, level: 3 }
 memberships:
   - body: Institution of Mechanical Engineers (IMechE)
     grade: Member
@@ -122,10 +105,3 @@ languages:
   - { name: Telugu, level: Native }
 certifications:
   - Full UK driving licence
-  - Artificial Intelligence programme, IIT Kanpur (iStop), 2021
-
-
-# Which projects appear on the CV page, in this order.
-cv_projects:
-  - formula-student-front-wing-cfd
-  - formula-student-chassis
