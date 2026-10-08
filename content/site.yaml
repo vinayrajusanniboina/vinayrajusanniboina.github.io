@@ -30,14 +30,7 @@ person:
   title: Automotive Engineer — Electric Vehicles
   email: vinayraj.3611@gmail.com
 
-  # ---------------------------------------------------------------------------
-  # TO CONFIRM: this number came off the CV and is one digit short of a standard
-  # UK mobile (+44 7xxx xxxxxx is 10 digits after +44). Check it before the site
-  # goes live — a wrong number on a job-hunt site is an expensive typo.
-  # To remove the phone number entirely, delete the line; every page that shows
-  # it is guarded and will simply omit it.
-  # ---------------------------------------------------------------------------
-  phone: "+44 790042005"
+  phone: "+44 7900 424005"
 
   location: Luton, United Kingdom
   linkedin: https://www.linkedin.com/in/vinay-raju-sanniboina-474b79220
@@ -95,7 +88,7 @@ contact:
     project work in more detail, including the parts that did not go to plan.
   availability: >
     Available for graduate engineering roles in the UK, with particular interest
-    in simulation-led design, validation and quality assurance.
+    in simulation, manufacturing systems and quality assurance.
 
   # A contact form needs a third party and is one more thing that can silently
   # break. Email always works. Only set this if you are going to test it:
@@ -106,7 +99,7 @@ cv:
   # Export the CV to PDF and save it at exactly this path, then rebuild.
   # Until the file exists the build warns but still succeeds.
   pdf: assets/cv/vinay-raju-sanniboina-cv.pdf
-  updated: August 2026
+  updated: October 2026
   note: >
     The page above is generated from the same content as the rest of the site, so
     it and the PDF cannot drift apart.

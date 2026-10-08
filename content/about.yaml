@@ -23,16 +23,16 @@ profile: |
   using nanofluids for electric vehicles — analysing coolant and heat transfer
   behaviour across a pack, and presenting findings that tied the analysis back
   to decisions a pack designer would actually face.
-  Alongside the MSc I was on chassis for Formula Student Bedfordshire Racing,
-  in a 24-member team. That work took chassis components from concept design in
+  Alongside the MSc I was on chassis for Formula Student with Team Bedfordshire
+  Racing, in a 24-member team. That work took chassis components from concept design in
   SOLIDWORKS through to workshop manufacture — cutting, welding, fabrication
   and assembly — against stiffness, packaging and cost targets on a fixed
   project deadline. The most useful thing I took from it was not the CAD. It
   was building the parts I had drawn, discovering which of my drawings were
   optimistic, and learning to check a component against its drawing before it
   goes anywhere near an assembly rather than after.
-  I am looking for a graduate engineering role, with particular interest in
-  simulation-led design, validation and quality assurance.
+  I am looking for a UK graduate engineering role, with particular interest in
+  simulation, manufacturing systems and quality assurance.
 education:
   - qualification: MSc
     field: Automotive Engineering for Electric Vehicles
@@ -80,6 +80,7 @@ skills:
       - { name: FEA, level: 3 }
       - { name: Meshing, level: 3 }
       - { name: Engineering analysis and numerical modelling, level: 3 }
+      - { name: MATLAB and Simulink }
   - group: Vehicle engineering
     items:
       - { name: Vehicle dynamics, level: 3 }
@@ -104,4 +105,5 @@ languages:
   - { name: English, level: Full professional }
   - { name: Telugu, level: Native }
 certifications:
+  - "Artificial Intelligence programme, IIT Kanpur (1Stop), Jun – Aug 2021 — certificate of participation"
   - Full UK driving licence
