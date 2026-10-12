@@ -16,18 +16,17 @@
 #   url: https://www.vinayrajusanniboina.com
 # ---------------------------------------------------------------------------
 url: https://vinayrajusanniboina.github.io
-title: Vinay Raju Sanniboina — Automotive Engineer
+title: Vinay Raju Sanniboina — Electrical & EV Powertrain Engineer
 description: >
-  Automotive engineer specialising in electric vehicles. Simulation-led design
-  work in CFD, FEA and CAD, including a multi-element Formula Student front wing
-  optimised in ANSYS Fluent and three chassis design iterations for Formula
-  Student Concept Class.
+  Graduate electrical engineer specialising in electric vehicles — EV
+  powertrain, power electronics, battery systems and electrical testing and
+  commissioning, backed by simulation in MATLAB/Simulink and ANSYS.
 lang: en-GB
 locale: en_GB
 
 person:
   name: Vinay Raju Sanniboina
-  title: Automotive Engineer — Electric Vehicles
+  title: Graduate Electrical Engineer — EV Powertrain, Power Electronics & Battery Systems
   email: vinayraj.3611@gmail.com
 
   phone: "+44 7900 424005"
@@ -87,8 +86,9 @@ contact:
     The fastest way to reach me is email. I am happy to talk through any of the
     project work in more detail, including the parts that did not go to plan.
   availability: >
-    Available for graduate engineering roles in the UK, with particular interest
-    in simulation, manufacturing systems and quality assurance.
+    Available for graduate and junior engineering roles in the UK, in EV
+    powertrain, power electronics, battery management systems or electrical
+    testing and commissioning.
 
   # A contact form needs a third party and is one more thing that can silently
   # break. Email always works. Only set this if you are going to test it:

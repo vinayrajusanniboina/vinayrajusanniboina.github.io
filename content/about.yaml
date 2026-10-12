@@ -9,30 +9,30 @@
 # =============================================================================
 headline: About
 profile: |
-  I am an automotive engineer working on electric vehicles, with an MSc in
-  Automotive Engineering for Electric Vehicles from the University of
-  Bedfordshire and a first-class BEng in Electrical and Electronics Engineering
-  specialising in electric vehicles.
-  My background sits across mechanical design, vehicle dynamics and
-  simulation-driven analysis — CAD, FEA and CFD. My dissertation was an
-  aerodynamic study of a multi-element Formula Student front wing, where
-  iterative optimisation in ANSYS Fluent produced roughly a 45% reduction in
-  aerodynamic drag alongside improved aerodynamic efficiency.
-  Before the MSc I spent two months as a CAE engineering intern in a product
+  I am an electrical engineer working on electric vehicles, with a first-class
+  BEng in Electrical and Electronics Engineering specialising in electric
+  vehicles and an MSc in Automotive Engineering for Electric Vehicles from the
+  University of Bedfordshire. My grounding is in the electric powertrain —
+  electrical machines, power electronics, motor control and battery systems —
+  backed by simulation and analysis in MATLAB/Simulink and ANSYS.
+  In the final year of my BEng I spent six months as a junior site supervisor
+  intern with Shri Abhirami Engineering Works in Chennai, supporting the
+  installation, testing and commissioning of power transformers — preparing
+  sites ahead of delivery, working alongside senior engineers through testing
+  and commissioning, and carrying out transformer oil changes and maintenance.
+  After graduating I spent two months as a CAE engineering intern in a product
   development research group, working on battery thermal management systems
   using nanofluids for electric vehicles — analysing coolant and heat transfer
   behaviour across a pack, and presenting findings that tied the analysis back
   to decisions a pack designer would actually face.
-  Alongside the MSc I was on chassis for Formula Student with Team Bedfordshire
-  Racing, in a 24-member team. That work took chassis components from concept design in
-  SOLIDWORKS through to workshop manufacture — cutting, welding, fabrication
-  and assembly — against stiffness, packaging and cost targets on a fixed
-  project deadline. The most useful thing I took from it was not the CAD. It
-  was building the parts I had drawn, discovering which of my drawings were
-  optimistic, and learning to check a component against its drawing before it
-  goes anywhere near an assembly rather than after.
-  I am looking for a UK graduate engineering role, with particular interest in
-  simulation, manufacturing systems and quality assurance.
+  During the MSc I was part of Team Bedfordshire Racing's 24-member Formula
+  Student team, manufacturing and assembling vehicle components and checking
+  them against drawings and the technical regulations. My dissertation was a
+  CFD study of a multi-element front wing, where iterative optimisation in
+  ANSYS Fluent produced roughly a 45% reduction in drag.
+  I am looking for a UK graduate or junior engineering role in EV powertrain,
+  power electronics, battery management systems or electrical testing and
+  commissioning.
 education:
   - qualification: MSc
     field: Automotive Engineering for Electric Vehicles
@@ -41,11 +41,11 @@ education:
     location: Luton, UK
     dates: May 2025 – May 2026
     modules:
-      - Thermodynamics, Heat Transfer & Fluid Dynamics
-      - Computational Fluid Dynamics
-      - Vehicle Dynamics & Performance
       - Automotive Electronics & Control Systems
       - Engineering Analysis & Numerical Modelling
+      - Thermodynamics, Heat Transfer & Fluid Dynamics
+      - Vehicle Dynamics & Performance
+      - Computational Fluid Dynamics
     highlights:
       - >
         Dissertation: aerodynamic performance analysis and optimisation of a
@@ -57,45 +57,47 @@ education:
     location: India
     dates: Jun 2020 – May 2024
     highlights:
-      - Electrical circuits and power systems
       - Electrical machines and power electronics
+      - EV technologies and battery systems
+      - Electrical circuits and power systems
       - Control and embedded systems
       - Automotive electronics
-      - EV technologies and battery systems
 # Levels are 1–5 and optional. Only claim a level you would be happy to be
 # questioned on in an interview. Omit `level` and the skill renders as a plain
 # entry with no bar — which is the honest answer for things you have studied but
 # not yet used in anger.
 skills:
-  - group: Design and CAD
+  - group: Power electronics and machines
     items:
-      - { name: SOLIDWORKS, level: 4, context: "Chassis component design and iteration, Formula Student" }
-      - { name: SpaceClaim, level: 3, context: "Geometry preparation and clean-up for CFD" }
-      - { name: Engineering drawing and GD&T, level: 3 }
+      - { name: Power electronics, level: 3 }
+      - { name: Electrical machines and motor drives, level: 3 }
+      - { name: Motor control, level: 3 }
+      - { name: Electrical circuits and power systems, level: 3 }
+  - group: Battery systems
+    items:
+      - { name: EV battery systems, level: 3 }
+      - { name: Battery thermal management, level: 3, context: "Battery thermal management research internship" }
+      - { name: Battery management system (BMS) principles }
+  - group: Testing and commissioning
+    items:
+      - { name: "Power transformer installation, testing and commissioning", context: "Site internship, Shri Abhirami Engineering Works" }
+      - { name: Transformer oil change and maintenance }
+      - { name: "Site preparation, health and safety" }
   - group: Simulation and analysis
     items:
-      - { name: ANSYS Fluent, level: 4, context: "Multi-element front wing study, MSc dissertation" }
-      - { name: CFD, level: 4, context: "Meshing, turbulence model selection, mesh independence" }
-      - { name: CAE and thermal analysis, level: 3, context: "Battery thermal management research internship" }
-      - { name: FEA, level: 3 }
-      - { name: Meshing, level: 3 }
-      - { name: Engineering analysis and numerical modelling, level: 3 }
       - { name: MATLAB and Simulink }
-  - group: Vehicle engineering
+      - { name: ANSYS Fluent, level: 4, context: "Multi-element front wing study, MSc dissertation" }
+      - { name: CAE and thermal analysis, level: 3, context: "Battery thermal management research internship" }
+      - { name: CFD, level: 4, context: "Meshing, turbulence model selection, mesh independence" }
+      - { name: Engineering analysis and numerical modelling, level: 3 }
+  - group: Control and electronics
     items:
-      - { name: Vehicle dynamics, level: 3 }
-      - { name: Aerodynamics, level: 4 }
-      - { name: Chassis design and packaging, level: 3 }
-      - { name: Chassis fabrication and welding, level: 3 }
-  - group: EV systems
-    items:
-      - { name: Battery systems, level: 3 }
-      - { name: Battery thermal management, level: 3 }
-      - { name: Power electronics, level: 3 }
-      - { name: Motor control, level: 3 }
       - { name: Automotive electronics and control systems, level: 3 }
-  - group: Tools
+      - { name: Embedded systems }
+  - group: Design and tools
     items:
+      - { name: SOLIDWORKS, level: 4, context: "Formula Student component design" }
+      - { name: Engineering drawing, level: 3 }
       - { name: Excel, level: 4 }
 memberships:
   - body: Institution of Mechanical Engineers (IMechE)
