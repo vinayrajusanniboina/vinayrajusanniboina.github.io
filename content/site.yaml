@@ -32,7 +32,7 @@ person:
   phone: "+44 7900 424005"
 
   location: Luton, United Kingdom
-  linkedin: https://www.linkedin.com/in/vinay-raju-sanniboina-474b79220
+  linkedin: https://www.linkedin.com/in/vinayrajusanniboina
 
   # Drop a portrait in at this path (4:5 crop, at least 800x1000) and uncomment.
   # image: assets/img/vinay.jpg
@@ -80,7 +80,7 @@ home:
   ctas:
     - { label: View projects, href: /projects/, primary: true }
     - { label: Download CV, href: /assets/cv/vinay-raju-sanniboina-cv.pdf, primary: false }
-    - { label: LinkedIn, href: "https://www.linkedin.com/in/vinay-raju-sanniboina-474b79220", primary: false }
+    - { label: LinkedIn, href: "https://www.linkedin.com/in/vinayrajusanniboina", primary: false }
 
 contact:
   intro: >
