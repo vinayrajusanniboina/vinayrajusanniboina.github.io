@@ -39,7 +39,7 @@ person:
   # image_alt: "Vinay Raju Sanniboina."
 
   positioning: >
-    I use CFD, FEA and CAD to turn design questions into numbers I can defend.
+    I work on the electric powertrain — motors, power electronics and batteries.
 
 nav:
   - { label: Projects, href: /projects/ }
@@ -49,32 +49,33 @@ nav:
 
 home:
   intro: |
-    MSc Automotive Engineering for Electric Vehicles graduate, working across
-    mechanical design, vehicle dynamics and simulation-driven analysis. Every
-    project on this site is written up the way an engineering review expects:
-    the brief, the decisions and the alternatives that were rejected, the
-    calculations behind them, and what testing actually showed.
+    Electrical and electronics engineer (BEng First Class, EV specialisation)
+    with an MSc in Automotive Engineering for Electric Vehicles, focused on EV
+    powertrain, power electronics and battery systems, with hands-on site
+    experience supporting power transformer installation, testing and
+    commissioning. Every project on this site is written up the way an
+    engineering review expects: the brief, the decisions and the alternatives
+    that were rejected, and the calculations behind them.
 
-  currently: Looking for a graduate vehicle engineering role
+  currently: Looking for a graduate role in EV powertrain, power electronics or electrical commissioning
 
   # Three headline facts. Every one of these is on the CV — do not add a number
   # here that you cannot show the working for on a project page.
   facts:
+    - value: "6 months"
+      label: Power transformer commissioning internship
+      note: Site preparation, installation, testing and commissioning support, Chennai, 2024
+    - value: "First"
+      label: BEng Electrical & Electronics Engineering
+      note: Electric vehicles specialisation, power electronics and battery systems
     - value: "~45%"
-      label: Reduction in aerodynamic drag
-      note: Multi-element Formula Student front wing, iterative CFD optimisation in ANSYS Fluent
-    - value: "3"
-      label: Full chassis design iterations
-      note: SOLIDWORKS, to Formula Student Concept Class regulations
-    - value: "2:1"
-      label: MSc Automotive Engineering for EVs
-      note: University of Bedfordshire, 2026
+      label: Reduction in drag
+      note: Multi-element front wing, iterative CFD optimisation in ANSYS Fluent, MSc dissertation
 
   # Order of the cards on the home page. Leave the list empty to fall back to
   # every project with `featured: true`.
   featured:
     - formula-student-front-wing-cfd
-    - formula-student-chassis
 
   ctas:
     - { label: View projects, href: /projects/, primary: true }
